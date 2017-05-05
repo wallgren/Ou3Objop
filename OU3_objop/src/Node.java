@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by c16gwn on 2017-05-05.
+ *
  */
 public class Node {
     private ArrayList<Node> neighbours;
@@ -64,15 +64,59 @@ public class Node {
         }
     }
 
-    public void addEvent(){
-
-
+    /**
+     * Description: Adds an event to this node as a new event, both in routingTable and in eventsHere-list
+     * @param e : the event to add
+     */
+    public void addEvent(Event e){
+        eventsHere.put(e.getId(),e);
+        ArrayList<Integer> a = new ArrayList<>();
+        a.add(0,0);
+        a.add(1,0);
+        routingTable.put(e.getId(),a);
     }
 
+    /**
+     * Description: Returns the position of the node
+     * @return the position
+     */
+    public Position getPos(){
+        return pos;
+    }
+
+    /**
+     * Description: Adds node to the nodes list of neighbours
+     * @param neigh: the node to add as neighbour
+     */
     public void addNeighbour(Node neigh){
-
+        neighbours.add(neigh);
     }
 
+    /**
+     * Description: returns the list of neighbours
+     * @return the list of neighbours
+     */
+    public ArrayList<Node> getNeighbours(){
+        return neighbours;
+    }
+
+    /**
+     * Description: Creates a request from this node, with a destination "id". This method is called from grid.
+     * Returns the request so grid can keep track of all requests.
+     * @param id : the id of the event the request tracks
+     * @param MAXJUMPS : the maximum amount of jumps a request is allowed to take.
+     * @return : the request created
+     */
+    public Request createRequest(int id, int MAXJUMPS) throws Exception{
+        //If the node already has an active request, throw an error as this ain't supposed to happen
+        if(currentRequest!=null){
+            throw new IllegalStateException("Two requests created from same node");
+        }
+        Request r = new Request(this, id,MAXJUMPS);
+        currentRequest=r;
+        timeSinceRequest=0;
+        return r;
+    }
 
 
 
