@@ -19,6 +19,7 @@ public class Agent {
     public Agent(Node startNode, int maxJumps){
         MAXJUMPS = maxJumps;
         visitedNodes.add(startNode);
+        currNode = startNode;
     }
 
     /** Check if the maximum number of moves is reached.
