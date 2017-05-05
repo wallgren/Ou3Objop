@@ -22,7 +22,7 @@ public class Node {
     }
 
     /**
-     * Description: Compare two routingTables with eachother, update with the shortest path to the event
+     * Description: Compare two routingTables with each other, update with the shortest path to the event
      * @param agentRT : the routingTable to compare.
      */
     public void compareTable(HashMap<Integer,ArrayList<Integer>> agentRT){

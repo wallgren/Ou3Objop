@@ -33,7 +33,7 @@ public class Grid {
      * @return boolean
      */
     private boolean detectEvent(){
-        Random r = new Random;
+        Random r = new Random();
         return r.nextDouble() <= PROBABILITYEVENT;
     }
 
@@ -42,7 +42,7 @@ public class Grid {
      * @return boolean
      */
     private boolean detectAgent(){
-        Random r = new Random;
+        Random r = new Random();
         return r.nextDouble() <= PROBABILITYAGENT;
     }
 
