@@ -13,23 +13,37 @@ public class Grid {
     private double PROBABILITYEVENT;
     private int COMLENGTH;
     private int MAXJUMPS;
+    private int timeStep;
 
     /**
      * Constructor        - Creates the grid with a list of nodes
      * @param listOfNodes
+     * @param PROBABILITYAGENT
+     * @param PROBABILITYEVENT
+     * @param COMLENGTH
+     * @param MAXJUMPS
      */
     public Grid(ArrayList<Node> listOfNodes, double PROBABILITYAGENT,
                 double PROBABILITYEVENT, int COMLENGTH, int MAXJUMPS){
         this.listOfNodes = listOfNodes;
         this.PROBABILITYAGENT = PROBABILITYAGENT;
-        this.PROBABILITYEVENT =
+        this.PROBABILITYEVENT = PROBABILITYEVENT;
+        this.COMLENGTH = COMLENGTH;
+        this.MAXJUMPS = MAXJUMPS;
+        fixNeighbours();
     }
 
     /**
-     * Method
+     * INTE KLAR
      */
     public void eventHappening(){
+        for(Node node : listOfNodes){
+            if(detectEvent()){
+                if(detectAgent()){
 
+                }
+            }
+        }
     }
 
     /**
@@ -75,7 +89,7 @@ public class Grid {
      * @param eventId
      * @param MAXJUMPS
      */
-    public void createRequest(Node requestFrom, int eventId, int MAXJUMPS){
+    public void createRequest(Node requestFrom, int eventId, int MAXJUMPS) throws Exception {
         listOfRequests.add(requestFrom.createRequest(eventId, MAXJUMPS));
     }
 
@@ -94,4 +108,15 @@ public class Grid {
         for(Request request : listOfRequests)
             request.move();
     }
+
+    /**
+     * Method  - Returns the timeStep of the Grid
+     * @return int
+     */
+    public int getTimeStep(){ return timeStep; }
+
+    /**
+     * Method - Increments the timeStep
+     */
+    public void timeStepIncrement(){ timeStep++; }
 }
