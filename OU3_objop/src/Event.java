@@ -1,7 +1,10 @@
+<<<<<<< HEAD
 /**
  * Class that handles the information about an event.
  * Created by oi12mnd on 2017-05-05.
  */
+=======
+>>>>>>> bad7a07dd3fa9a8b7fc5df0cf6148dee2142c00c
 public class Event {
     private int id, time;
     private Position position;
