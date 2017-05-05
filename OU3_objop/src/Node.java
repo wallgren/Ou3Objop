@@ -77,6 +77,16 @@ public class Node {
     }
 
     /**
+     * Description: Returns the informaiton associated with an event-id in the routingTable.
+     * @param id : the id we want info about
+     * @return an arraylist with the info. index 0: The distance to event, index 1: the direction to event, described
+     * as the position in this nodes neighbourList.
+     */
+    public ArrayList<Integer> getEventInfo(int id){
+        return routingTable.get(id);
+    }
+
+    /**
      * Description: Returns the position of the node
      * @return the position
      */
