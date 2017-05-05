@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="547798ab-de57-404c-a1bc-d66324028685" name="Default" comment="" />
+    <list default="true" id="547798ab-de57-404c-a1bc-d66324028685" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OP_lab3.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/UML_OU3.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/uml1.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/uml2.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OU3.iml" afterPath="$PROJECT_DIR$/OU3.iml" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -51,6 +58,9 @@
       <pane id="ProjectPane" />
       <pane id="PackagesPane" />
     </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
