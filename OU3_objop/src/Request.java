@@ -3,11 +3,14 @@ import java.util.Stack;
 /**
  * Class - Request class
  */
-public class Request {
+public class Request extends Message{
     private int MAXJUMPS;
     private Stack<Node> path = new Stack<Node>();
     private int eventId;
     private String message;
+    private boolean idFound;
+    private int directionNext;
+    private int jumps;
 
     /**
      * Constructor        - Creates a Request from a given node
@@ -30,8 +33,26 @@ public class Request {
     /**
      * Method  - moves the Request one step
      */
+    @Override
     public void move(){
-
+        if(jumps < MAXJUMPS*8) {
+            Node currentNode = path.peek();
+            if (!idFound) {
+                path.add(currentNode.getNeighbours().get(rand.nextInt(currentNode.getNeighbours().size())));
+                currentNode = path.peek();
+                if (currentNode.getEventInfo(eventId) != null) {
+                    idFound = true;
+                    directionNext = currentNode.getEventInfo(eventId).get(1);
+                }
+            } else {
+                path.add(currentNode.getNeighbours().get(directionNext));
+            }
+            jumps++;
+            if(currentNode.eventExistsHere(eventId)){
+                message = "Position: (" + currentNode.getPos().getX() + ", " + currentNode.getPos().getY() + ") " +
+                        "time: " + currentNode.getEvent(eventId).getTime() + " event id: " + eventId;
+            }
+        }
     }
 
     /**
@@ -40,7 +61,6 @@ public class Request {
      * @return boolean
      */
     public boolean hasReturned(){
-
-        return true;
+        return path.isEmpty();
     }
 }

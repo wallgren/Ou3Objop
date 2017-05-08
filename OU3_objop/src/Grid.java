@@ -6,14 +6,17 @@ import java.util.Random;
  */
 public class Grid {
     private ArrayList<Node> listOfNodes;
+    private ArrayList<Node> fourRandomNodes;
     private ArrayList<Event> listOfEvents;
     private ArrayList<Request> listOfRequests;
     private ArrayList<Agent> listOfAgents;
     private double PROBABILITYAGENT;
     private double PROBABILITYEVENT;
     private int COMLENGTH;
-    private int MAXJUMPS;
+    private int MAXJUMPSAGENT;
+    private int MAXJUMPSREQUEST;
     private int timeStep;
+    private Random randomGenerator = new Random();
 
     /**
      * Constructor        - Creates the grid with a list of nodes
@@ -21,27 +24,56 @@ public class Grid {
      * @param PROBABILITYAGENT
      * @param PROBABILITYEVENT
      * @param COMLENGTH
-     * @param MAXJUMPS
+     * @param MAXJUMPSAGENT
+     * @param MAXJUMPSREQUEST
      */
     public Grid(ArrayList<Node> listOfNodes, double PROBABILITYAGENT,
-                double PROBABILITYEVENT, int COMLENGTH, int MAXJUMPS){
+                double PROBABILITYEVENT, int COMLENGTH, int MAXJUMPSAGENT, int MAXJUMPSREQUEST){
         this.listOfNodes = listOfNodes;
         this.PROBABILITYAGENT = PROBABILITYAGENT;
         this.PROBABILITYEVENT = PROBABILITYEVENT;
         this.COMLENGTH = COMLENGTH;
-        this.MAXJUMPS = MAXJUMPS;
+        this.MAXJUMPSAGENT = MAXJUMPSAGENT;
+        this.MAXJUMPSREQUEST = MAXJUMPSREQUEST;
         fixNeighbours();
+        for (int i = 0; i < 4; i++) {
+            fourRandomNodes.add(listOfNodes.get(randomGenerator.nextInt(listOfNodes.size())));
+        }
     }
 
     /**
-     * INTE KLAR
+     * Method - This method is called everytime a time tick is represented,
+     *          the method spawns events and agents on a given probability,
+     *          every 400 time step four Requests is sent out in the network
+     *          from four random nodes
+     *
      */
     public void eventHappening(){
+        timeStepIncrement();
         for(Node node : listOfNodes){
             if(detectEvent()){
                 if(detectAgent()){
-
+                    listOfAgents.add(new Agent(node, MAXJUMPSAGENT));
                 }
+                listOfEvents.add(new Event(node.getPos(), randomGenerator.nextInt(1000), timeStep));
+            }
+        }
+        /**
+         * If timeStep is on 400, 800, 1200...
+         * it should send out four Requests from four random
+         * nodes in the network
+         */
+        if(timeStep % 400 == 0){
+            for (int i = 0; i < 4; i++) {
+                listOfRequests.add(new Request(fourRandomNodes.get(i),
+                        listOfEvents.get(randomGenerator.nextInt(listOfEvents.size())).getId(), MAXJUMPSREQUEST));
+                fourRandomNodes.remove(i);
+            }
+            /**
+             * Randomizes the four next nodes
+             */
+            for (int i = 0; i < 4; i++) {
+                fourRandomNodes.add(listOfNodes.get(randomGenerator.nextInt(listOfNodes.size())));
             }
         }
     }
@@ -51,8 +83,7 @@ public class Grid {
      * @return boolean
      */
     private boolean detectEvent(){
-        Random r = new Random();
-        return r.nextDouble() <= PROBABILITYEVENT;
+        return randomGenerator.nextDouble() <= PROBABILITYEVENT;
     }
 
     /**
@@ -60,8 +91,7 @@ public class Grid {
      * @return boolean
      */
     private boolean detectAgent(){
-        Random r = new Random();
-        return r.nextDouble() <= PROBABILITYAGENT;
+        return randomGenerator.nextDouble() <= PROBABILITYAGENT;
     }
 
     /**
@@ -110,13 +140,7 @@ public class Grid {
     }
 
     /**
-     * Method  - Returns the timeStep of the Grid
-     * @return int
-     */
-    public int getTimeStep(){ return timeStep; }
-
-    /**
      * Method - Increments the timeStep
      */
-    public void timeStepIncrement(){ timeStep++; }
+    private void timeStepIncrement(){ timeStep++; }
 }

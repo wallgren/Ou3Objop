@@ -6,9 +6,9 @@ import java.util.HashMap;
  */
 public class Node {
     private ArrayList<Node> neighbours;
-    private HashMap<Integer, ArrayList<Integer>> routingTable;
+    private HashMap<Integer, ArrayList<Integer>> routingTable; // index 0 - distance, 1 - direction.
     private Position pos;
-    private ArrayList<Agent> agentQueue;
+    private ArrayList<Message> messageQueue;
     private HashMap<Integer, Event> eventsHere;
     private int timeSinceRequest;
     private Request currentRequest;
@@ -83,7 +83,18 @@ public class Node {
      * as the position in this nodes neighbourList.
      */
     public ArrayList<Integer> getEventInfo(int id){
-        return routingTable.get(id);
+        if(routingTable.containsKey(id))
+            return routingTable.get(id);
+        return null;
+    }
+
+    public boolean eventExistsHere(int eventId){ return eventsHere.containsKey(eventId); }
+
+
+    public Event getEvent(int eventId){
+        if(eventsHere.containsKey(eventId))
+            return eventsHere.get(eventId);
+        return null;
     }
 
     /**
@@ -127,8 +138,5 @@ public class Node {
         timeSinceRequest=0;
         return r;
     }
-
-
-
 
 }

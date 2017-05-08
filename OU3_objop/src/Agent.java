@@ -5,13 +5,12 @@ import java.util.Random;
 /**
  * Created by oi12mnd on 2017-05-05.
  */
-public class Agent {
+public class Agent extends Message{
 
     private HashMap routingTable = new HashMap<Integer, ArrayList<Integer>>();
     private Node currNode, nextNode;
     private int jumps = 0, MAXJUMPS;
     private ArrayList<Node> visitedNodes = new ArrayList<Node>(); // index 0 - distance, 1 - direction.
-    private Random random = new Random();
 
     /** Sets the maximum number of jumps of an agent. Adds the starting node to visited nodes.
      * @param startNode The node where the agent is created.
@@ -41,11 +40,12 @@ public class Agent {
 
     /* Pick a random node from list */
     private Node getRandomNode(ArrayList<Node> nodes){
-        int nextNodeIndex = random.nextInt(nodes.size());
+        int nextNodeIndex = rand.nextInt(nodes.size());
         return nodes.get(nextNodeIndex);
     }
 
     /** Moves the agent one step. */
+    @Override
     public void move(){
         ArrayList<Node> movableNeighbours = getMovableNeighbours();
 
