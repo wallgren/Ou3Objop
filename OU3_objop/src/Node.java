@@ -120,7 +120,7 @@ public class Node {
      * @param MAXJUMPS : the maximum amount of jumps a request is allowed to take.
      * @return : the request created
      */
-    public void createRequest(int id, int MAXJUMPS) throws IllegalStateException{
+    public Request createRequest(int id, int MAXJUMPS) throws IllegalStateException{
         //If the node already has an active request, throw an error as this ain't supposed to happen
         if(currentRequest!=null){
             throw new IllegalStateException("Two requests created from same node");
@@ -129,6 +129,7 @@ public class Node {
         currentRequest=r;
         timeSinceRequest=0;
         r.update();
+        return r;
     }
 
     /**
@@ -186,7 +187,7 @@ public class Node {
             }else if(!sentTwice){
                 //If a request times out we should send out a new request for the same event once more.
                 sentTwice=true;
-                currentRequest=createRequest(currentRequest.getEventId,currentRequest.getMaxJumps);
+                currentRequest=createRequest(currentRequest.getEventId(),currentRequest.getMaxJumps());
             }else{
                 currentRequest=null;
                 timeSinceRequest=0;
