@@ -6,12 +6,12 @@ import java.util.Random;
  * Created by oi12mnd on 2017-05-05.
  */
 public class Agent extends Message {
-    private HashMap routingTable = new HashMap<Integer, ArrayList<Integer>>();
+    private HashMap<Integer, ArrayList<Integer>> routingTable = new HashMap<>();
     private Node currNode, nextNode;
 
     /** Sets the maximum number of jumps of an agent. Adds the starting node to visited nodes.
      * @param startNode The node where the agent is created.
-     * @param maxJumps The number of */
+     * @param MAXJUMPS The number of */
     public Agent(Node startNode, int MAXJUMPS){
         super(startNode,MAXJUMPS);
     }
@@ -26,7 +26,7 @@ public class Agent extends Message {
     private ArrayList<Node> getMovableNeighbours() {
         ArrayList<Node> movableNeighbours = new ArrayList<Node>();
         for (Node node : currNode.getNeighbours()) {
-            if (!visitedNodes.contains(node)) {
+            if (!path.contains(node)) {
                 movableNeighbours.add(node);
             }
         }
@@ -41,8 +41,8 @@ public class Agent extends Message {
 
     /** Synchronises the agent's information with a node. */
     public void update(){
-        if (jumps==maxJumps){
-            currNode.removeFirstElement;
+        if (jumps==MAXJUMPS){
+            currNode.removeFirstElement();
         }
         else {
             updateOwnTable();
@@ -57,7 +57,7 @@ public class Agent extends Message {
     public void updateOwnTable(){
         for(int key: routingTable.keySet()){
             routingTable.get(key).set(0,routingTable.get(key).get(0)+1);
-            routingTable.get(key).set(1, currentNode.getNeighbours().indexOf(previousNode));
+            routingTable.get(key).set(1, currNode.getNeighbours().indexOf(previousNode));
         }
     }
 
@@ -69,11 +69,11 @@ public class Agent extends Message {
      */
     public Node findNextNode(){
         Node nextNode;
-        if(getMovableNeighbours().isEmpty) {
-            nextNode = currentNode.getNeighbours().get(random.nextInt(currentNode.getNeighbours().size));
+        if(getMovableNeighbours().isEmpty()) {
+            nextNode = currNode.getNeighbours().get(random.nextInt(currNode.getNeighbours().size()));
         }
         else {
-            nextNode=getMovableNeighbours().get(random.nextInt(getMovableNeighbours().size()))
+            nextNode=getMovableNeighbours().get(random.nextInt(getMovableNeighbours().size()));
         }
         return nextNode;
     }

@@ -17,6 +17,7 @@ public class Node {
     public Node(Position p){
         routingTable=new HashMap<>();
         neighbours=new ArrayList<>();
+        messageQueue=new ArrayList<>();
         pos=p;
         timeSinceRequest=0;
         eventsHere=new HashMap<>();
