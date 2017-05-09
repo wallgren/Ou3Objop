@@ -8,7 +8,7 @@ public class Node {
     private ArrayList<Node> neighbours;
     private HashMap<Integer, ArrayList<Integer>> routingTable;
     private Position pos;
-    private ArrayList<Agent> messageQueue;
+    private ArrayList<Message> messageQueue;
     private HashMap<Integer, Event> eventsHere;
     private int timeSinceRequest;
     private Request currentRequest;
@@ -138,6 +138,13 @@ public class Node {
         messageQueue.remove(0);
     }
 
+    /**
+     * Description: adds a message to the messageQueue
+     * @param m : the message to add.
+     */
+    public void addMessageToQueue(Message m){
+        messageQueue.add(m);
+    }
 
     /**
      * Description: This pubic method checks if theres any messages in the queue. If there are any, it calls upon them
@@ -156,7 +163,7 @@ public class Node {
      * @param id: The if of the event to look for
      * @return null if event hasn't happened here, the time of the event if it has.
      */
-    private Integer checkIfEventExists(int id){
+    public Integer returnTimeIfEventExists(int id){
         if(eventsHere.containsKey(id))
             return eventsHere.get(id).getTime();
         return null;
