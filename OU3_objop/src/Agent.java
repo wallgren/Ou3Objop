@@ -22,9 +22,8 @@ public class Agent {
         currNode = startNode;
     }
 
-    /** Check if the maximum number of moves is reached.
-     * @return True if the agent can move, false otherwise. */
-    public boolean canMove(){
+    /* Check if the maximum number of moves is reached. */
+    private boolean canMove(){
         return jumps < MAXJUMPS;
     }
 
@@ -57,6 +56,7 @@ public class Agent {
             nextNode = getRandomNode(movableNeighbours);
         }
         currNode = nextNode;
+        visitedNodes.add(currNode);
         jumps++;
     }
 
