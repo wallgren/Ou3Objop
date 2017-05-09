@@ -5,25 +5,20 @@ import java.util.Random;
 /**
  * Created by oi12mnd on 2017-05-05.
  */
-public class Agent {
-
+public class Agent extends Message {
     private HashMap routingTable = new HashMap<Integer, ArrayList<Integer>>();
     private Node currNode, nextNode;
-    private int jumps = 0, MAXJUMPS;
-    private ArrayList<Node> visitedNodes = new ArrayList<Node>(); // index 0 - distance, 1 - direction.
-    private Random random = new Random();
 
     /** Sets the maximum number of jumps of an agent. Adds the starting node to visited nodes.
      * @param startNode The node where the agent is created.
      * @param maxJumps The number of */
-    public Agent(Node startNode, int maxJumps){
-        MAXJUMPS = maxJumps;
-        visitedNodes.add(startNode);
-        currNode = startNode;
+    public Agent(Node startNode, int MAXJUMPS){
+        super(startNode,MAXJUMPS);
     }
 
-    /* Check if the maximum number of moves is reached. */
-    private boolean canMove(){
+    /** Check if the maximum number of moves is reached.
+     * @return True if the agent can move, false otherwise. */
+    public boolean canMove(){
         return jumps < MAXJUMPS;
     }
 
@@ -44,24 +39,42 @@ public class Agent {
         return nodes.get(nextNodeIndex);
     }
 
-    /** Moves the agent one step. */
-    public void move(){
-        ArrayList<Node> movableNeighbours = getMovableNeighbours();
-
-        // No unvisited neighbours: jump to random visited node.
-        // Else: jump to random unvisited node.
-        if (movableNeighbours.isEmpty()) {
-            nextNode = getRandomNode(currNode.getNeighbours());
-        } else {
-            nextNode = getRandomNode(movableNeighbours);
-        }
-        currNode = nextNode;
-        visitedNodes.add(currNode);
-        jumps++;
-    }
-
     /** Synchronises the agent's information with a node. */
     public void update(){
+        if (jumps==maxJumps){
+            currNode.removeFirstElement;
+        }
+        else {
+            updateOwnTable();
+            currNode.compareTable(routingTable);
+            nextNode=findNextNode();
+        }
+    }
 
+    /**
+     * Updates the agents table of events, increasing the distance by 1 jump and adding direction for the latest node.
+     */
+    public void updateOwnTable(){
+        for(int key: routingTable.keySet()){
+            routingTable.get(key).set(0,routingTable.get(key).get(0)+1);
+            routingTable.get(key).set(1, currentNode.getNeighbours().indexOf(previousNode));
+        }
+    }
+
+    /**
+     * Finds a new node for the agent to move to.
+     * If all the neighbours already have been visited, one of those will randomly chosen.
+     * Otherwise one of the neighbours that was not already visited will be chosen, also by random.
+     * @return The next node for the agent to move to.
+     */
+    public Node findNextNode(){
+        Node nextNode;
+        if(getMovableNeighbours().isEmpty) {
+            nextNode = currentNode.getNeighbours().get(random.nextInt(currentNode.getNeighbours().size));
+        }
+        else {
+            nextNode=getMovableNeighbours().get(random.nextInt(getMovableNeighbours().size()))
+        }
+        return nextNode;
     }
 }
