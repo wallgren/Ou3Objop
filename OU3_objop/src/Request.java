@@ -32,6 +32,7 @@ public class Request extends Message{
 
     /**
      * Method  - moves the Request one step
+     * TODO Message delivery not written!
      */
     @Override
     public void move(){
