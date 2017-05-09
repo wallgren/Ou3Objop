@@ -54,7 +54,9 @@ public class Grid {
         for(Node node : listOfNodes){
             if(detectEvent()){
                 if(detectAgent()){
-                    node.addMessageToQueue(new Agent(node, MAXJUMPSAGENT).update());
+                    Agent agent = new Agent(node, MAXJUMPSAGENT);
+                    agent.update();
+                    node.addMessageToQueue(agent);
                 }
                 nextIdGenertor++;
                 listOfEvents.add(new Event(node.getPos(), nextIdGenertor, timeStep));

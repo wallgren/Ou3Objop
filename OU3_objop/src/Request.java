@@ -29,9 +29,9 @@ public class Request extends Message{
      * Method - Updates the Request
      */
     public void update(){
-        if(currNode.checkifEventExists != null){
+        if(currNode.returnTimeIfEventExists(eventId) != null){
             message = "Position: (" + currNode.getPos().getX() + ", " + currNode.getPos().getY() + ") " +
-                    "time: " + currNode.getEvent(eventId).getTime() + " event id: " + eventId;
+                    "time: " + currNode.returnTimeIfEventExists(eventId) + " event id: " + eventId;
         }
         else if(jumps < MAXJUMPS)
             nextNode = findNextNode();
@@ -46,21 +46,20 @@ public class Request extends Message{
     @Override
     public Node findNextNode(){
         if(message.equals("")){
+            if(currNode.getEventInfo(eventId) != null){
+                idFound = true;
+                directionNext = currNode.getEventInfo(eventId).get(1);
+            }
             if(!idFound){
-                path.push(currNode.getNeighbours().get(random.nextInt(currNode.getNeighbours().size())));
-                currNode = path.peek();
-                if(currNode.getEventInfo(eventId) != null){
-                    idFound = true;
-                    directionNext = currNode.getEventInfo(eventId).get(1);
-                }
+                return currNode.getNeighbours().get(random.nextInt(currNode.getNeighbours().size()));
             }
             else{
-                path.push(currNode.getNeighbours().get(directionNext));
+                return currNode.getNeighbours().get(directionNext);
             }
         }
         else{
             path.pop();
-            nextNode = path.peek();
+            return path.peek();
         }
     }
 
