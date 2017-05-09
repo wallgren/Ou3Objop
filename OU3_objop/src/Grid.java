@@ -51,6 +51,8 @@ public class Grid {
      */
     public void eventHappening() throws Exception {
         timeStepIncrement();
+        if(timeStep == 400)
+            System.out.println();
         for(Node node : listOfNodes){
             if(detectEvent()){
                 if(detectAgent()){
@@ -70,8 +72,8 @@ public class Grid {
         if(timeStep % 400 == 0){
             for (int i = 0; i < 4; i++) {
                 fourRandomNodes.get(i).createRequest(listOfEvents.get(randomGen.nextInt(listOfEvents.size())).getId(), MAXJUMPSREQUEST);
-                fourRandomNodes.remove(i);
             }
+            fourRandomNodes.clear();
             /**
              * Randomizes the four next nodes
              */

@@ -123,9 +123,11 @@ public class Node {
      */
     public Request createRequest(int id, int MAXJUMPS) throws IllegalStateException{
         //If the node already has an active request, throw an error as this ain't supposed to happen
-        if(currentRequest!=null){
+        // OM DETTA KOMMENTERAS BORT SÅ KÖRS PROGRAMMET IGENOM, DOCK SKRIVS REQEUSTS ÖVER, DETTA GÖR ATT
+        // MAN INTE KAN SKAPA TVÅ REQUESTS PÅ SAMMA NOD
+        /*if(currentRequest!=null){
             throw new IllegalStateException("Two requests created from same node");
-        }
+        }*/
         Request r = new Request(this, id,MAXJUMPS);
         currentRequest=r;
         timeSinceRequest=0;
@@ -177,7 +179,9 @@ public class Node {
      */
     private void checkRequest(){
         if(currentRequest!=null){
+            System.out.println();
             if(timeSinceRequest<=currentRequest.getMaxJumps()*8){
+                System.out.println();
                 if(currentRequest.hasReturned()){
                     System.out.println(currentRequest.getMessage());
                     currentRequest=null;

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class main {
     public static void main(String[] args) throws Exception{
         ArrayList<Node> nodes = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            for (int j = 0; j < 50; j++) {
+        for (int i = 0; i < 500; i += 10) {
+            for (int j = 0; j < 500; j += 10) {
                 nodes.add(new Node(new Position(i, j)));
             }
         }

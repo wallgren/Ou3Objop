@@ -7,7 +7,6 @@ import java.util.Random;
  */
 public class Agent extends Message {
     private HashMap<Integer, ArrayList<Integer>> routingTable = new HashMap<>();
-    private Node currNode, nextNode;
 
     /** Sets the maximum number of jumps of an agent. Adds the starting node to visited nodes.
      * @param startNode The node where the agent is created.
