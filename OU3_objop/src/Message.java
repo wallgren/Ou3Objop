@@ -3,10 +3,13 @@
  * Created by oi12mnd on 2017-05-09.
  */
 import java.util.Stack;
+import java.util.Random;
+
 public abstract class Message {
     protected int MAXJUMPS, jumps = 0;
     protected Stack<Node> path = new Stack<>();
-    protected Node currNode, nextNode;
+    protected Node currNode, nextNode, previousNode;
+    protected Random random = new Random();
 
     /** Creates a new message.
      * @param MAXJUMPS The maximum number of jumps that a message can make.
@@ -27,6 +30,7 @@ public abstract class Message {
     /** Function that moves a message one step and adds the next ode to its path. */
     public void move(){
         currNode.removeFirstElement();
+        previousNode = currNode;
         currNode = nextNode;
         currNode.addMessageToQueue(this);
         jumps++;
