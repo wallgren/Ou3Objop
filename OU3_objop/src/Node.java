@@ -8,10 +8,11 @@ public class Node {
     private ArrayList<Node> neighbours;
     private HashMap<Integer, ArrayList<Integer>> routingTable;
     private Position pos;
-    private ArrayList<Agent> agentQueue;
+    private ArrayList<Agent> messageQueue;
     private HashMap<Integer, Event> eventsHere;
     private int timeSinceRequest;
     private Request currentRequest;
+    private boolean sentTwice;
 
     public Node(Position p){
         routingTable=new HashMap<>();
@@ -19,6 +20,8 @@ public class Node {
         pos=p;
         timeSinceRequest=0;
         eventsHere=new HashMap<>();
+        currentRequest=null;
+        sentTwice=false;
     }
 
     /**
@@ -117,7 +120,7 @@ public class Node {
      * @param MAXJUMPS : the maximum amount of jumps a request is allowed to take.
      * @return : the request created
      */
-    public Request createRequest(int id, int MAXJUMPS) throws Exception{
+    public void createRequest(int id, int MAXJUMPS) throws IllegalStateException{
         //If the node already has an active request, throw an error as this ain't supposed to happen
         if(currentRequest!=null){
             throw new IllegalStateException("Two requests created from same node");
@@ -125,10 +128,72 @@ public class Node {
         Request r = new Request(this, id,MAXJUMPS);
         currentRequest=r;
         timeSinceRequest=0;
-        return r;
+        r.update();
+    }
+
+    /**
+     * Description: remove the first element from the messageQueue
+     */
+    public void removeFirstElement(){
+        messageQueue.remove(0);
     }
 
 
+    /**
+     * Description: This pubic method checks if theres any messages in the queue. If there are any, it calls upon them
+     * to move and update.
+     */
+    private void moveMessage(){
+        if(messageQueue.size()!=0)
+            messageQueue.get(0).move();
+        if(messageQueue.size()!=0)
+            messageQueue.get(0).update();
+    }
 
+    /**
+     * Description: This method checks if a specific event has occured on this node. If it has, it returns the time
+     * of the event, if it hasn't, it returns null.
+     * @param id: The if of the event to look for
+     * @return null if event hasn't happened here, the time of the event if it has.
+     */
+    private Integer checkIfEventExists(int id){
+        if(eventsHere.containsKey(id))
+            return eventsHere.get(id).getTime();
+        return null;
+    }
+
+    /**
+     * Description: If this node has sent out a request, this method checks that requests status, prints its message
+     * if it has returned, and removes it if enough time has passed.
+     */
+    private void checkRequest(){
+        if(currentRequest!=null){
+            if(timeSinceRequest<=currentRequest.getMaxJumps()*8){
+                if(currentRequest.hasReturned()){
+                    System.out.println(currentRequest.getMessage());
+                    currentRequest=null;
+                    timeSinceRequest=0;
+                    sentTwice=false;
+                }else
+                    timeSinceRequest++;
+            }else if(!sentTwice){
+                //If a request times out we should send out a new request for the same event once more.
+                sentTwice=true;
+                currentRequest=createRequest(currentRequest.getEventId,currentRequest.getMaxJumps);
+            }else{
+                currentRequest=null;
+                timeSinceRequest=0;
+                sentTwice=false;
+            }
+        }
+    }
+
+    /**
+     *Description: Updates messages in the queue of this node and the request started from this node if such exists.
+     */
+    public void update(){
+        moveMessage();
+        checkRequest();
+    }
 
 }
