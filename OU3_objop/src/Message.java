@@ -35,6 +35,7 @@ public abstract class Message {
         currNode.addMessageToQueue(this);
         jumps++;
         path.push(currNode);
+
     }
 }
 

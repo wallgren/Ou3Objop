@@ -114,6 +114,8 @@ public class Node {
         return neighbours;
     }
 
+
+
     /**
      * Description: Creates a request from this node, with a destination "id". This method is called from grid.
      * Returns the request so grid can keep track of all requests.
@@ -156,9 +158,10 @@ public class Node {
      */
     private void moveMessage(){
         if(messageQueue.size()!=0)
-            messageQueue.get(0).move();
-        if(messageQueue.size()!=0)
             messageQueue.get(0).update();
+        if(messageQueue.size()!=0)
+            messageQueue.get(0).move();
+
     }
 
     /**
