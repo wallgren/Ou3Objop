@@ -37,6 +37,8 @@ public abstract class Message {
         currNode.addMessageToQueue(this);
         jumps++;
         path.push(currNode);
+        if(currNode.numberOfElementsInMessageQueue()==1)
+            currNode.setBusy(true);
 
     }
 }

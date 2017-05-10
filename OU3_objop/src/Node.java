@@ -13,6 +13,7 @@ public class Node {
     private int timeSinceRequest;
     private Request currentRequest;
     private boolean sentTwice;
+    boolean isBusy;
 
     public Node(Position p){
         routingTable=new HashMap<>();
@@ -23,6 +24,7 @@ public class Node {
         eventsHere=new HashMap<>();
         currentRequest=null;
         sentTwice=false;
+        isBusy=false;
     }
 
     /**
@@ -81,6 +83,14 @@ public class Node {
     }
 
     /**
+     *
+     * @param a
+     */
+    public void setBusy(boolean a){
+        isBusy=a;
+    }
+
+    /**
      * Description: Returns the informaiton associated with an event-id in the routingTable.
      * @param id : the id we want info about
      * @return an arraylist with the info. index 0: The distance to event, index 1: the direction to event, described
@@ -133,7 +143,8 @@ public class Node {
         Request r = new Request(this, id,MAXJUMPS);
         currentRequest=r;
         timeSinceRequest=0;
-        r.update();
+        addMessageToQueue(r);
+        System.out.println("Request created at:"+getPos().getX()+";"+getPos().getY());
         return r;
     }
 
@@ -161,7 +172,7 @@ public class Node {
         if(a!=0)
             messageQueue.get(0).update();
         //Make sure that if the first message in the queue has reached its final step, the next message is also updated
-        while(a!=messageQueue.size()) {
+         while(a!=messageQueue.size()) {
             a=messageQueue.size();
             if(a!=0)
                 messageQueue.get(0).update();
@@ -212,11 +223,16 @@ public class Node {
         }
     }
 
+    public int numberOfElementsInMessageQueue(){
+        return messageQueue.size();
+    }
+
     /**
      *Description: Updates messages in the queue of this node and the request started from this node if such exists.
      */
     public void update(){
-        moveMessage();
+        if(!isBusy)
+            moveMessage();
         checkRequest();
     }
 

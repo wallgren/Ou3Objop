@@ -59,6 +59,7 @@ public class Grid {
         System.out.println(timeStep);
 
         for(Node node : listOfNodes){
+            node.setBusy(false);
             if(detectEvent()){
                 nextIdGenertor++;
                 Event e= new Event(node.getPos(), nextIdGenertor, timeStep);
