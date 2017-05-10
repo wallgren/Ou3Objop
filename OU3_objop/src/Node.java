@@ -179,9 +179,7 @@ public class Node {
      */
     private void checkRequest(){
         if(currentRequest!=null){
-            System.out.println();
             if(timeSinceRequest<=currentRequest.getMaxJumps()*8){
-                System.out.println();
                 if(currentRequest.hasReturned()){
                     System.out.println(currentRequest.getMessage());
                     currentRequest=null;

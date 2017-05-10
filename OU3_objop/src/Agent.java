@@ -44,7 +44,8 @@ public class Agent extends Message {
             currNode.removeFirstElement();
         }
         else {
-            updateOwnTable();
+            if(jumps!=0)
+                updateOwnTable();
             currNode.compareTable(routingTable);
             nextNode=findNextNode();
         }

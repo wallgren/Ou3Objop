@@ -52,16 +52,19 @@ public class Grid {
     public void eventHappening() throws Exception {
         timeStepIncrement();
         if(timeStep == 400)
-            System.out.println();
+            System.out.println(timeStep);
         for(Node node : listOfNodes){
             if(detectEvent()){
                 if(detectAgent()){
+                    System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY());
                     Agent agent = new Agent(node, MAXJUMPSAGENT);
                     agent.update();
                     node.addMessageToQueue(agent);
                 }
                 nextIdGenertor++;
-                listOfEvents.add(new Event(node.getPos(), nextIdGenertor, timeStep));
+                Event e= new Event(node.getPos(), nextIdGenertor, timeStep);
+                node.addEvent(e);
+                listOfEvents.add(e);
             }
         }
         /**
@@ -96,7 +99,9 @@ public class Grid {
      * @return boolean
      */
     private boolean detectEvent(){
-        return randomGen.nextDouble() <= PROBABILITYEVENT;
+        double a =randomGen.nextDouble();
+        boolean b =a <= PROBABILITYEVENT;
+        return b;
     }
 
     /**
