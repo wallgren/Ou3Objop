@@ -1,16 +1,11 @@
-import java.util.Stack;
-
 /**
  * Class - Request class
  */
 public class Request extends Message{
-    private int MAXJUMPS;
-    private Stack<Node> path = new Stack<Node>();
     private int eventId;
     private String message;
     private boolean idFound;
     private int directionNext;
-    private int jumps;
 
     /**
      * Constructor        - Creates a Request from a given node
@@ -19,9 +14,8 @@ public class Request extends Message{
      * @param MAXJUMPS
      */
     public Request(Node requestFrom, int eventId, int MAXJUMPS){
-        path.push(requestFrom);
+        super(requestFrom, MAXJUMPS);
         this.eventId = eventId;
-        this.MAXJUMPS = MAXJUMPS;
     }
 
     /**
@@ -30,31 +24,57 @@ public class Request extends Message{
      */
     public String getMessage(){ return message; }
 
+
     /**
-     * Method  - moves the Request one step
-     * TODO Message delivery not written!
+     * Method - Updates the Request
+     */
+    public void update(){
+        if(currNode.returnTimeIfEventExists(eventId) != null){
+            message = "Position: (" + currNode.getPos().getX() + ", " + currNode.getPos().getY() + ") " +
+                    "time: " + currNode.returnTimeIfEventExists(eventId) + " event id: " + eventId;
+        }
+        else if(jumps < MAXJUMPS)
+            nextNode = findNextNode();
+        else
+            currNode.removeFirstElement();
+    }
+
+    /**
+     * Method - Finds the next node for the Request to move to
+     * @return Node
      */
     @Override
-    public void move(){
-        if(jumps < MAXJUMPS*8) {
-            Node currentNode = path.peek();
-            if (!idFound) {
-                path.add(currentNode.getNeighbours().get(rand.nextInt(currentNode.getNeighbours().size())));
-                currentNode = path.peek();
-                if (currentNode.getEventInfo(eventId) != null) {
-                    idFound = true;
-                    directionNext = currentNode.getEventInfo(eventId).get(1);
-                }
-            } else {
-                path.add(currentNode.getNeighbours().get(directionNext));
+    public Node findNextNode(){
+        if(message == null){
+            if(currNode.getEventInfo(eventId) != null){
+                idFound = true;
+                directionNext = currNode.getEventInfo(eventId).get(1);
             }
-            jumps++;
-            if(currentNode.eventExistsHere(eventId)){
-                message = "Position: (" + currentNode.getPos().getX() + ", " + currentNode.getPos().getY() + ") " +
-                        "time: " + currentNode.getEvent(eventId).getTime() + " event id: " + eventId;
+            if(!idFound){
+                return currNode.getNeighbours().get(random.nextInt(currNode.getNeighbours().size()));
+            }
+            else{
+                return currNode.getNeighbours().get(directionNext);
             }
         }
+        else{
+            System.out.println("Is on way back");
+            path.pop();
+            return path.peek();
+        }
     }
+
+    /**
+     * Method - Returns eventId
+     * @return int
+     */
+    public int getEventId(){ return eventId; }
+
+    /**
+     * Method - Returns MAXJUMPS of the Request
+     * @return int
+     */
+    public int getMaxJumps(){ return MAXJUMPS; }
 
     /**
      * Method  - Returns true if the Request have returned

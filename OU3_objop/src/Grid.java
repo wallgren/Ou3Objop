@@ -5,18 +5,17 @@ import java.util.Random;
  * Class - Grid represents the network with all the nodes in it
  */
 public class Grid {
+    private int timeStep;
     private ArrayList<Node> listOfNodes;
-    private ArrayList<Node> fourRandomNodes;
     private ArrayList<Event> listOfEvents;
-    private ArrayList<Request> listOfRequests;
-    private ArrayList<Agent> listOfAgents;
+    private ArrayList<Node> fourRandomNodes;
     private double PROBABILITYAGENT;
     private double PROBABILITYEVENT;
     private int COMLENGTH;
     private int MAXJUMPSAGENT;
     private int MAXJUMPSREQUEST;
-    private int timeStep;
-    private Random randomGenerator = new Random();
+    private Random randomGen = new Random();
+    private int nextIdGenertor;
 
     /**
      * Constructor        - Creates the grid with a list of nodes
@@ -30,14 +29,21 @@ public class Grid {
     public Grid(ArrayList<Node> listOfNodes, double PROBABILITYAGENT,
                 double PROBABILITYEVENT, int COMLENGTH, int MAXJUMPSAGENT, int MAXJUMPSREQUEST){
         this.listOfNodes = listOfNodes;
+        this.listOfEvents = new ArrayList<>();
+        this.fourRandomNodes = new ArrayList<>();
         this.PROBABILITYAGENT = PROBABILITYAGENT;
         this.PROBABILITYEVENT = PROBABILITYEVENT;
         this.COMLENGTH = COMLENGTH;
         this.MAXJUMPSAGENT = MAXJUMPSAGENT;
         this.MAXJUMPSREQUEST = MAXJUMPSREQUEST;
         fixNeighbours();
-        for (int i = 0; i < 4; i++) {
-            fourRandomNodes.add(listOfNodes.get(randomGenerator.nextInt(listOfNodes.size())));
+        int count = 0;
+        while(count < 4){
+            Node randomNode = listOfNodes.get(randomGen.nextInt(listOfNodes.size()));
+            if(!fourRandomNodes.contains(randomNode)) {
+                fourRandomNodes.add(randomNode);
+                count++;
+            }
         }
     }
 
@@ -48,14 +54,22 @@ public class Grid {
      *          from four random nodes
      *
      */
-    public void eventHappening(){
+    public void eventHappening() throws Exception {
         timeStepIncrement();
+        System.out.println(timeStep);
+
         for(Node node : listOfNodes){
+            node.setBusy(false);
             if(detectEvent()){
+                nextIdGenertor++;
+                Event e= new Event(node.getPos(), nextIdGenertor, timeStep);
+                node.addEvent(e);
+                listOfEvents.add(e);
                 if(detectAgent()){
-                    listOfAgents.add(new Agent(node, MAXJUMPSAGENT));
+                    System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY());
+                    Agent agent = new Agent(node, MAXJUMPSAGENT);
+                    node.addMessageToQueue(agent);
                 }
-                listOfEvents.add(new Event(node.getPos(), randomGenerator.nextInt(1000), timeStep));
             }
         }
         /**
@@ -64,18 +78,34 @@ public class Grid {
          * nodes in the network
          */
         if(timeStep % 400 == 0){
-            for (int i = 0; i < 4; i++) {
-                listOfRequests.add(new Request(fourRandomNodes.get(i),
-                        listOfEvents.get(randomGenerator.nextInt(listOfEvents.size())).getId(), MAXJUMPSREQUEST));
-                fourRandomNodes.remove(i);
+            int eventId = 0;
+            if(listOfEvents.size() > 0) {
+                eventId = randomGen.nextInt(listOfEvents.size());
+                for (int i = 0; i < 4; i++) {
+                    fourRandomNodes.get(i).createRequest(eventId, MAXJUMPSREQUEST);
+                }
             }
+            fourRandomNodes.clear();
             /**
              * Randomizes the four next nodes
              */
-            for (int i = 0; i < 4; i++) {
-                fourRandomNodes.add(listOfNodes.get(randomGenerator.nextInt(listOfNodes.size())));
+            int count = 0;
+            while(count < 4){
+                Node randomNode = listOfNodes.get(randomGen.nextInt(listOfNodes.size()));
+                if(!fourRandomNodes.contains(randomNode)) {
+                    fourRandomNodes.add(randomNode);
+                    count++;
+                }
             }
         }
+    }
+
+    /**
+     * Method - Updates all the nodes
+     */
+    public void updateNodes(){
+        for(Node node : listOfNodes)
+            node.update();
     }
 
     /**
@@ -83,7 +113,9 @@ public class Grid {
      * @return boolean
      */
     private boolean detectEvent(){
-        return randomGenerator.nextDouble() <= PROBABILITYEVENT;
+        double a =randomGen.nextDouble();
+        boolean b =a <= PROBABILITYEVENT;
+        return b;
     }
 
     /**
@@ -91,21 +123,21 @@ public class Grid {
      * @return boolean
      */
     private boolean detectAgent(){
-        return randomGenerator.nextDouble() <= PROBABILITYAGENT;
+        return randomGen.nextDouble() <= PROBABILITYAGENT;
     }
 
     /**
      * Method - Sets the neighbours for each Node in the Grid
      */
-    private void fixNeighbours(){
+    private void fixNeighbours() {
         for (int i = 0; i < listOfNodes.size(); i++) {
             Node node = listOfNodes.get(i);
             for (int j = 0; j < listOfNodes.size(); j++) {
                 Node compareNode = listOfNodes.get(j);
-                if(i != j){
+                if (i != j) {
                     int xlength = node.getPos().getX() - compareNode.getPos().getX();
                     int ylength = node.getPos().getY() - compareNode.getPos().getY();
-                    if(Math.sqrt(Math.pow(xlength, 2) + Math.pow(ylength, 2)) <= 15){
+                    if (Math.sqrt(Math.pow(xlength, 2) + Math.pow(ylength, 2)) <= 15) {
                         node.addNeighbour(compareNode);
                     }
                 }
@@ -114,33 +146,7 @@ public class Grid {
     }
 
     /**
-     * Method             - Creates a Request from a given Node
-     * @param requestFrom
-     * @param eventId
-     * @param MAXJUMPS
-     */
-    public void createRequest(Node requestFrom, int eventId, int MAXJUMPS) throws Exception {
-        listOfRequests.add(requestFrom.createRequest(eventId, MAXJUMPS));
-    }
-
-    /**
-     * Method - Moves all the Agents in the Grid
-     */
-    public void moveAgents(){
-        for(Agent agent : listOfAgents)
-            agent.move();
-    }
-
-    /**
-     * Method - Moves all the Requests in the Grid
-     */
-    public void moveRequests(){
-        for(Request request : listOfRequests)
-            request.move();
-    }
-
-    /**
      * Method - Increments the timeStep
      */
-    private void timeStepIncrement(){ timeStep++; }
+    public void timeStepIncrement(){ timeStep++; }
 }

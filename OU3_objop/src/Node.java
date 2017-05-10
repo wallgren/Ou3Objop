@@ -6,19 +6,25 @@ import java.util.HashMap;
  */
 public class Node {
     private ArrayList<Node> neighbours;
-    private HashMap<Integer, ArrayList<Integer>> routingTable; // index 0 - distance, 1 - direction.
+    private HashMap<Integer, ArrayList<Integer>> routingTable;
     private Position pos;
     private ArrayList<Message> messageQueue;
     private HashMap<Integer, Event> eventsHere;
     private int timeSinceRequest;
     private Request currentRequest;
+    private boolean sentTwice;
+    boolean isBusy;
 
     public Node(Position p){
         routingTable=new HashMap<>();
         neighbours=new ArrayList<>();
+        messageQueue=new ArrayList<>();
         pos=p;
         timeSinceRequest=0;
         eventsHere=new HashMap<>();
+        currentRequest=null;
+        sentTwice=false;
+        isBusy=false;
     }
 
     /**
@@ -77,24 +83,21 @@ public class Node {
     }
 
     /**
+     *
+     * @param a
+     */
+    public void setBusy(boolean a){
+        isBusy=a;
+    }
+
+    /**
      * Description: Returns the informaiton associated with an event-id in the routingTable.
      * @param id : the id we want info about
      * @return an arraylist with the info. index 0: The distance to event, index 1: the direction to event, described
      * as the position in this nodes neighbourList.
      */
     public ArrayList<Integer> getEventInfo(int id){
-        if(routingTable.containsKey(id))
-            return routingTable.get(id);
-        return null;
-    }
-
-    public boolean eventExistsHere(int eventId){ return eventsHere.containsKey(eventId); }
-
-
-    public Event getEvent(int eventId){
-        if(eventsHere.containsKey(eventId))
-            return eventsHere.get(eventId);
-        return null;
+        return routingTable.get(id);
     }
 
     /**
@@ -121,6 +124,8 @@ public class Node {
         return neighbours;
     }
 
+
+
     /**
      * Description: Creates a request from this node, with a destination "id". This method is called from grid.
      * Returns the request so grid can keep track of all requests.
@@ -128,15 +133,107 @@ public class Node {
      * @param MAXJUMPS : the maximum amount of jumps a request is allowed to take.
      * @return : the request created
      */
-    public Request createRequest(int id, int MAXJUMPS) throws Exception{
+    public Request createRequest(int id, int MAXJUMPS) throws IllegalStateException{
         //If the node already has an active request, throw an error as this ain't supposed to happen
+        // OM DETTA KOMMENTERAS BORT SÅ KÖRS PROGRAMMET IGENOM, DOCK SKRIVS REQEUSTS ÖVER, DETTA GÖR ATT
+        // MAN INTE KAN SKAPA TVÅ REQUESTS PÅ SAMMA NOD
         if(currentRequest!=null){
             throw new IllegalStateException("Two requests created from same node");
         }
         Request r = new Request(this, id,MAXJUMPS);
         currentRequest=r;
         timeSinceRequest=0;
+        addMessageToQueue(r);
+        System.out.println("Request created at:"+getPos().getX()+";"+getPos().getY());
         return r;
+    }
+
+    /**
+     * Description: remove the first element from the messageQueue
+     */
+    public void removeFirstElement(){
+        messageQueue.remove(0);
+    }
+
+    /**
+     * Description: adds a message to the messageQueue
+     * @param m : the message to add.
+     */
+    public void addMessageToQueue(Message m){
+        messageQueue.add(m);
+    }
+
+    /**
+     * Description: This pubic method checks if theres any messages in the queue. If there are any, it calls upon them
+     * to move and update.
+     */
+    private void moveMessage(){
+        int a =messageQueue.size();
+        if(a!=0)
+            messageQueue.get(0).update();
+        //Make sure that if the first message in the queue has reached its final step, the next message is also updated
+        while(a!=messageQueue.size()) {
+            a=messageQueue.size();
+            if(a!=0)
+                messageQueue.get(0).update();
+        }
+        if (messageQueue.size() != 0)
+            messageQueue.get(0).move();
+
+    }
+
+    /**
+     * Description: This method checks if a specific event has occured on this node. If it has, it returns the time
+     * of the event, if it hasn't, it returns null.
+     * @param id: The if of the event to look for
+     * @return null if event hasn't happened here, the time of the event if it has.
+     */
+    public Integer returnTimeIfEventExists(int id){
+        if(eventsHere.containsKey(id))
+            return eventsHere.get(id).getTime();
+        return null;
+    }
+
+    /**
+     * Description: If this node has sent out a request, this method checks that requests status, prints its message
+     * if it has returned, and removes it if enough time has passed.
+     */
+    private void checkRequest(){
+        if(currentRequest!=null){
+            if(timeSinceRequest<=currentRequest.getMaxJumps()*8){
+                if(currentRequest.hasReturned()){
+                    System.out.println(currentRequest.getMessage());
+                    currentRequest=null;
+                    timeSinceRequest=0;
+                    sentTwice=false;
+                }else
+                    timeSinceRequest++;
+            }else if(!sentTwice){
+                //If a request times out we should send out a new request for the same event once more.
+                sentTwice=true;
+                int id = currentRequest.getEventId();
+                int maxJ=currentRequest.getMaxJumps();
+                currentRequest=null;
+                currentRequest=createRequest(id, maxJ);
+            }else{
+                currentRequest=null;
+                timeSinceRequest=0;
+                sentTwice=false;
+            }
+        }
+    }
+
+    public int numberOfElementsInMessageQueue(){
+        return messageQueue.size();
+    }
+
+    /**
+     *Description: Updates messages in the queue of this node and the request started from this node if such exists.
+     */
+    public void update(){
+        if(!isBusy)
+            moveMessage();
+        checkRequest();
     }
 
 }
