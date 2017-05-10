@@ -37,8 +37,13 @@ public class Grid {
         this.MAXJUMPSAGENT = MAXJUMPSAGENT;
         this.MAXJUMPSREQUEST = MAXJUMPSREQUEST;
         fixNeighbours();
-        for (int i = 0; i < 4; i++) {
-            fourRandomNodes.add(listOfNodes.get(randomGen.nextInt(listOfNodes.size())));
+        int count = 0;
+        while(count < 4){
+            Node randomNode = listOfNodes.get(randomGen.nextInt(listOfNodes.size()));
+            if(!fourRandomNodes.contains(randomNode)) {
+                fourRandomNodes.add(randomNode);
+                count++;
+            }
         }
     }
 
@@ -51,8 +56,8 @@ public class Grid {
      */
     public void eventHappening() throws Exception {
         timeStepIncrement();
-        if(timeStep == 400)
-            System.out.println(timeStep);
+        System.out.println(timeStep);
+
         for(Node node : listOfNodes){
             if(detectEvent()){
                 if(detectAgent()){
@@ -73,15 +78,24 @@ public class Grid {
          * nodes in the network
          */
         if(timeStep % 400 == 0){
-            for (int i = 0; i < 4; i++) {
-                fourRandomNodes.get(i).createRequest(listOfEvents.get(randomGen.nextInt(listOfEvents.size())).getId(), MAXJUMPSREQUEST);
+            int eventId = 0;
+            if(listOfEvents.size() > 0) {
+                eventId = randomGen.nextInt(listOfEvents.size());
+                for (int i = 0; i < 4; i++) {
+                    fourRandomNodes.get(i).createRequest(eventId, MAXJUMPSREQUEST);
+                }
             }
             fourRandomNodes.clear();
             /**
              * Randomizes the four next nodes
              */
-            for (int i = 0; i < 4; i++) {
-                fourRandomNodes.add(listOfNodes.get(randomGen.nextInt(listOfNodes.size())));
+            int count = 0;
+            while(count < 4){
+                Node randomNode = listOfNodes.get(randomGen.nextInt(listOfNodes.size()));
+                if(!fourRandomNodes.contains(randomNode)) {
+                    fourRandomNodes.add(randomNode);
+                    count++;
+                }
             }
         }
     }

@@ -125,9 +125,9 @@ public class Node {
         //If the node already has an active request, throw an error as this ain't supposed to happen
         // OM DETTA KOMMENTERAS BORT SÅ KÖRS PROGRAMMET IGENOM, DOCK SKRIVS REQEUSTS ÖVER, DETTA GÖR ATT
         // MAN INTE KAN SKAPA TVÅ REQUESTS PÅ SAMMA NOD
-        /*if(currentRequest!=null){
+        if(currentRequest!=null){
             throw new IllegalStateException("Two requests created from same node");
-        }*/
+        }
         Request r = new Request(this, id,MAXJUMPS);
         currentRequest=r;
         timeSinceRequest=0;
@@ -190,7 +190,10 @@ public class Node {
             }else if(!sentTwice){
                 //If a request times out we should send out a new request for the same event once more.
                 sentTwice=true;
-                currentRequest=createRequest(currentRequest.getEventId(),currentRequest.getMaxJumps());
+                int id = currentRequest.getEventId();
+                int maxJ=currentRequest.getMaxJumps();
+                currentRequest=null;
+                currentRequest=createRequest(id, maxJ);
             }else{
                 currentRequest=null;
                 timeSinceRequest=0;

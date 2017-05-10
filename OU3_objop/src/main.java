@@ -6,12 +6,12 @@ import java.util.ArrayList;
 public class main {
     public static void main(String[] args) throws Exception {
         ArrayList<Node> nodes = new ArrayList<>();
-        for (int i = 0; i < 40; i += 10) {
-            for (int j = 0; j < 40; j += 10) {
+        for (int i = 0; i < 500; i += 10) {
+            for (int j = 0; j < 500; j += 10) {
                 nodes.add(new Node(new Position(i, j)));
             }
         }
-        Grid g = new Grid(nodes, 0.5, 0.01, 15, 50, 45);
+        Grid g = new Grid(nodes, 0.5, 0.001, 15, 50, 45);
 
         for (int i = 0; i < 1000; i++) {
             g.updateNodes();
