@@ -1,10 +1,16 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * Class - Grid represents the network with all the nodes in it
  */
-public class Grid {
+public class Grid extends JFrame{
     private int timeStep;
     private ArrayList<Node> listOfNodes;
     private ArrayList<Event> listOfEvents;
@@ -16,6 +22,8 @@ public class Grid {
     private int MAXJUMPSREQUEST;
     private Random randomGen = new Random();
     private int nextIdGenertor;
+    private Graphics graphics;
+    private BufferedImage img;
 
     /**
      * Constructor        - Creates the grid with a list of nodes
@@ -27,7 +35,7 @@ public class Grid {
      * @param MAXJUMPSREQUEST
      */
     public Grid(ArrayList<Node> listOfNodes, double PROBABILITYAGENT,
-                double PROBABILITYEVENT, int COMLENGTH, int MAXJUMPSAGENT, int MAXJUMPSREQUEST){
+                double PROBABILITYEVENT, int COMLENGTH, int MAXJUMPSAGENT, int MAXJUMPSREQUEST) throws IOException {
         this.listOfNodes = listOfNodes;
         this.listOfEvents = new ArrayList<>();
         this.fourRandomNodes = new ArrayList<>();
@@ -45,7 +53,21 @@ public class Grid {
                 count++;
             }
         }
+        img = ImageIO.read(new File("C:\\Users\\Max Holmberg\\Pictures\\grid.png"));
+        graphics = img.getGraphics();
+        setPreferredSize(new Dimension(1000, 1000));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setVisible(true);
+
     }
+
+    @Override
+    public void paint(Graphics g){
+        g.drawImage(img, 50, 50, 800, 800, null);
+    }
+
+
 
     /**
      * Method - This method is called everytime a time tick is represented,
@@ -104,8 +126,28 @@ public class Grid {
      * Method - Updates all the nodes
      */
     public void updateNodes(){
-        for(Node node : listOfNodes)
+        for(Node node : listOfNodes) {
             node.update();
+            drawRektangle(node.getPos(), Color.BLACK);
+            if(!node.eventsHereIsEmpty())
+                drawRektangle(node.getPos(), Color.green);
+            if(node.getMessageQueue().size() > 0) {
+                if (node.getMessageQueue().get(0) instanceof Agent) {
+                    drawRektangle(node.getPos(), Color.RED);
+                }
+                else {
+                    drawRektangle(node.getPos(), Color.BLUE);
+                }
+            }
+
+            this.repaint();
+        }
+    }
+
+
+    public void drawRektangle(Position p, Color c){
+        graphics.setColor(c);
+        graphics.drawRect(p.getX()+10, p.getY()+10, 5, 5);
     }
 
     /**

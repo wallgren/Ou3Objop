@@ -27,6 +27,9 @@ public class Node {
         isBusy=false;
     }
 
+
+    public boolean eventsHereIsEmpty(){return eventsHere.isEmpty(); }
+
     /**
      * Description: Compare two routingTables with each other, update with the shortest path to the event
      * @param agentRT : the routingTable to compare.
@@ -227,6 +230,7 @@ public class Node {
         return messageQueue.size();
     }
 
+    public ArrayList<Message> getMessageQueue(){ return messageQueue; }
     /**
      *Description: Updates messages in the queue of this node and the request started from this node if such exists.
      */
