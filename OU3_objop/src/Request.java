@@ -58,6 +58,7 @@ public class Request extends Message{
             }
         }
         else{
+            System.out.println("Is on way back");
             path.pop();
             return path.peek();
         }

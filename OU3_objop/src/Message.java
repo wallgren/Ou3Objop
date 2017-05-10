@@ -31,6 +31,8 @@ public abstract class Message {
     public void move(){
         currNode.removeFirstElement();
         previousNode = currNode;
+        if(nextNode == null)
+            System.out.println();
         currNode = nextNode;
         currNode.addMessageToQueue(this);
         jumps++;

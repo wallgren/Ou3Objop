@@ -13,7 +13,7 @@ public class main {
         }
         Grid g = new Grid(nodes, 0.5, 0.001, 15, 50, 45);
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000; i++) {
             g.updateNodes();
             g.eventHappening();
         }

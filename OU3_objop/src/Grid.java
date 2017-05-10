@@ -67,7 +67,6 @@ public class Grid {
                 if(detectAgent()){
                     System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY());
                     Agent agent = new Agent(node, MAXJUMPSAGENT);
-                    agent.update();
                     node.addMessageToQueue(agent);
                 }
             }

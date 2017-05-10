@@ -157,9 +157,16 @@ public class Node {
      * to move and update.
      */
     private void moveMessage(){
-        if(messageQueue.size()!=0)
+        int a =messageQueue.size();
+        if(a!=0)
             messageQueue.get(0).update();
-        if(messageQueue.size()!=0)
+        //Make sure that if the first message in the queue has reached its final step, the next message is also updated
+        while(a!=messageQueue.size()) {
+            a=messageQueue.size();
+            if(a!=0)
+                messageQueue.get(0).update();
+        }
+        if (messageQueue.size() != 0)
             messageQueue.get(0).move();
 
     }
