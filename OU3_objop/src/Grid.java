@@ -39,9 +39,9 @@ public class Grid {
         fixNeighbours();
         int count = 0;
         while(count < 4){
-            Node randomNode = listOfNodes.get(randomGen.nextInt(listOfNodes.size()));
-            if(!fourRandomNodes.contains(randomNode)) {
-                fourRandomNodes.add(randomNode);
+            int rN=randomGen.nextInt(listOfNodes.size());
+            if(!fourRandomNodes.contains(listOfNodes.get(rN))) {
+                fourRandomNodes.add(listOfNodes.get(rN));
                 count++;
             }
         }
@@ -104,6 +104,8 @@ public class Grid {
      * Method - Updates all the nodes
      */
     public void updateNodes(){
+        if(timeStep==400)
+            System.out.println();
         for(Node node : listOfNodes)
             node.update();
     }

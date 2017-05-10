@@ -69,11 +69,15 @@ public class Agent extends Message {
      */
     public Node findNextNode(){
         Node nextNode;
-        if(getMovableNeighbours().isEmpty()) {
-            nextNode = currNode.getNeighbours().get(random.nextInt(currNode.getNeighbours().size()));
+        ArrayList<Node> movableN=getMovableNeighbours();
+        ArrayList<Node> allN=currNode.getNeighbours();
+
+
+        if(movableN.isEmpty()) {
+            nextNode = allN.get(random.nextInt(allN.size()));
         }
         else {
-            nextNode=getMovableNeighbours().get(random.nextInt(getMovableNeighbours().size()));
+            nextNode=movableN.get(random.nextInt(movableN.size()));
         }
         return nextNode;
     }
