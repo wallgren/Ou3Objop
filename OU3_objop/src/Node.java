@@ -39,39 +39,58 @@ public class Node {
             if(agentRT.containsKey(key)){
                 if(agentRT.get(key).get(0)<routingTable.get(key).get(0)){
                     //If agent has a shorter path, update the routingTable in the node.
-                    routingTable.get(key).set(0,agentRT.get(key).get(0));
-                    routingTable.get(key).set(1,agentRT.get(key).get(1));
+                    int pathNr=agentRT.get(key).get(0);
+                    int pathDir=agentRT.get(key).get(1);
+                    routingTable.get(key).set(0,pathNr);
+                    routingTable.get(key).set(1,pathDir);
                 }
-                else if(agentRT.get(key).get(0)>routingTable.get(key).get(0)){
+                else if(routingTable.get(key).get(0)<agentRT.get(key).get(0)){
                     //If node has a shorter path, update the routingTable in the agent.
+                    int pathNr=routingTable.get(key).get(0);
+                    int pathDir=routingTable.get(key).get(1);
                     agentRT.get(key).set(0,routingTable.get(key).get(0));
                     agentRT.get(key).set(1,routingTable.get(key).get(1));
                 }
             }
             else{
                 //If the node has an event the agent doesn't, add it.
-                agentRT.put(key, routingTable.get(key));
+                int pathNr=routingTable.get(key).get(0);
+                int pathDir=routingTable.get(key).get(1);
+                ArrayList<Integer> newList=new ArrayList<>();
+                newList.add(pathNr);
+                newList.add(pathDir);
+                agentRT.put(key, newList);
             }
         }
         for(int key: agentRT.keySet()){
             if(routingTable.containsKey(key)){
                 if(agentRT.get(key).get(0)<routingTable.get(key).get(0)){
                     //If agent has a shorter path, update the routingTable in the node.
-                    routingTable.get(key).set(0,agentRT.get(key).get(0));
-                    routingTable.get(key).set(1,agentRT.get(key).get(1));
+                    int pathNr=agentRT.get(key).get(0);
+                    int pathDir=agentRT.get(key).get(1);
+                    routingTable.get(key).set(0,pathNr);
+                    routingTable.get(key).set(1,pathDir);
                 }
-                else if(agentRT.get(key).get(0)>routingTable.get(key).get(0)){
+                else if(routingTable.get(key).get(0)<agentRT.get(key).get(0)){
                     //If node has a shorter path, update the routingTable in the agent.
+                    int pathNr=routingTable.get(key).get(0);
+                    int pathDir=routingTable.get(key).get(1);
                     agentRT.get(key).set(0,routingTable.get(key).get(0));
                     agentRT.get(key).set(1,routingTable.get(key).get(1));
                 }
             }
             else{
                 //If the agent has an event the node doesn't, add it.
-                routingTable.put(key, agentRT.get(key));
+                int pathNr=agentRT.get(key).get(0);
+                int pathDir=agentRT.get(key).get(1);
+                ArrayList<Integer> newList=new ArrayList<>();
+                newList.add(pathNr);
+                newList.add(pathDir);
+                routingTable.put(key, newList);
             }
         }
     }
+
 
     /**
      * Description: Adds an event to this node as a new event, both in routingTable and in eventsHere-list
@@ -127,7 +146,9 @@ public class Node {
         return neighbours;
     }
 
-
+    public boolean hasRequest(){
+        return currentRequest != null;
+    }
 
     /**
      * Description: Creates a request from this node, with a destination "id". This method is called from grid.
@@ -147,7 +168,7 @@ public class Node {
         currentRequest=r;
         timeSinceRequest=0;
         addMessageToQueue(r);
-        System.out.println("Request created at:"+getPos().getX()+";"+getPos().getY());
+        //System.out.println("Request created at:"+getPos().getX()+";"+getPos().getY());
         return r;
     }
 

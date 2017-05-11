@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -49,26 +50,22 @@ public class Grid extends JFrame{
         this.MAXJUMPSAGENT = MAXJUMPSAGENT;
         this.MAXJUMPSREQUEST = MAXJUMPSREQUEST;
         fixNeighbours();
-        int count = 0;
-        while(count < 4){
-            Node randomNode = listOfNodes.get(randomGen.nextInt(listOfNodes.size()));
-            if(!fourRandomNodes.contains(randomNode)) {
-                fourRandomNodes.add(randomNode);
-                count++;
-            }
+        ArrayList<Node> temporary = (ArrayList<Node>)listOfNodes.clone();
+        Collections.shuffle(temporary);
+        for (int i = 0; i < 4; i++) {
+            fourRandomNodes.add(temporary.get(i));
         }
-        img = ImageIO.read(new File("/home/c16/c16gwn/Documents/background.png"));
+        img = ImageIO.read(new File("/home/dv16/dv16mhg/Documents/background.png"));
         graphics = img.getGraphics();
-        setPreferredSize(new Dimension(1000, 1000));
+        setPreferredSize(new Dimension(1440, 2560));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);
-
     }
 
     @Override
     public void paint(Graphics g){
-        g.drawImage(img, 50, 50, 800, 800, null);
+        g.drawImage(img, 50, 50, 2560-300, 1440-300, null);
     }
 
 
@@ -82,7 +79,7 @@ public class Grid extends JFrame{
      */
     public void eventHappening() throws Exception {
         timeStepIncrement();
-        System.out.println(timeStep);
+       // System.out.println(timeStep);
 
         for(Node node : listOfNodes){
             node.setBusy(false);
@@ -92,7 +89,7 @@ public class Grid extends JFrame{
                 node.addEvent(e);
                 listOfEvents.add(e);
                 if(detectAgent()){
-                    System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY());
+                    //System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY() + " at time " + timeStep);
                     Agent agent = new Agent(node, MAXJUMPSAGENT);
                     listOfAgents.add(agent);
                     node.addMessageToQueue(agent);
@@ -116,14 +113,18 @@ public class Grid extends JFrame{
             /**
              * Randomizes the four next nodes
              */
+            ArrayList<Node> temporary = (ArrayList<Node>)listOfNodes.clone();
+            Collections.shuffle(temporary);
             int count = 0;
+            int i = 0;
             while(count < 4){
-                Node randomNode = listOfNodes.get(randomGen.nextInt(listOfNodes.size()));
-                if(!fourRandomNodes.contains(randomNode)) {
-                    fourRandomNodes.add(randomNode);
+                if(!temporary.get(i).hasRequest()) {
+                    fourRandomNodes.add(temporary.get(i));
                     count++;
                 }
+                i++;
             }
+
         }
     }
 
@@ -142,7 +143,7 @@ public class Grid extends JFrame{
             }
             if(node.getMessageQueue().size() > 0) {
                 if (node.getMessageQueue().get(0) instanceof Request) {
-                    drawRektangle(node.getPos(), Color.BLUE);
+                    drawRektangle(node.getPos(), Color.YELLOW);
                 }
             }
             this.repaint();
@@ -151,7 +152,7 @@ public class Grid extends JFrame{
 
     public void drawRektangle(Position p, Color c){
         graphics.setColor(c);
-        graphics.drawRect(p.getX()+10, p.getY()+10, 5, 5);
+        graphics.fillRect(p.getX()+10, p.getY()+10, 8, 8);
     }
 
     /**

@@ -29,16 +29,15 @@ public abstract class Message {
 
     /** Function that moves a message one step and adds the next ode to its path. */
     public void move(){
+        boolean shouldPush = nextNode != currNode;
         currNode.removeFirstElement();
         previousNode = currNode;
-        if(nextNode == null)
-            System.out.println();
         currNode = nextNode;
         currNode.addMessageToQueue(this);
         jumps++;
-        path.push(currNode);
+        if(shouldPush)
+            path.push(currNode);
         if(currNode.numberOfElementsInMessageQueue()==1)
             currNode.setBusy(true);
-
     }
 }
