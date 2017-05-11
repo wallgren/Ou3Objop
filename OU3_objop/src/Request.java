@@ -32,6 +32,7 @@ public class Request extends Message{
         if(currNode.returnTimeIfEventExists(eventId) != null){
             message = "Position: (" + currNode.getPos().getX() + ", " + currNode.getPos().getY() + ") " +
                     "time: " + currNode.returnTimeIfEventExists(eventId) + " event id: " + eventId;
+            nextNode=findNextNode();
         }
         else if(jumps < MAXJUMPS)
             nextNode = findNextNode();
@@ -45,10 +46,11 @@ public class Request extends Message{
      */
     @Override
     public Node findNextNode(){
-        if(message == null){
+        if(message == null ){
             if(currNode.getEventInfo(eventId) != null){
                 idFound = true;
                 directionNext = currNode.getEventInfo(eventId).get(1);
+
             }
             if(!idFound){
                 return currNode.getNeighbours().get(random.nextInt(currNode.getNeighbours().size()));
@@ -60,7 +62,11 @@ public class Request extends Message{
         else{
             System.out.println("Is on way back");
             path.pop();
-            return path.peek();
+            if(!path.isEmpty())
+                return path.peek();
+            else
+                currNode.removeFirstElement();
+            return currNode;
         }
     }
 

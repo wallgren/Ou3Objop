@@ -66,7 +66,7 @@ public class Grid {
                 node.addEvent(e);
                 listOfEvents.add(e);
                 if(detectAgent()){
-                    System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY());
+                    //System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY());
                     Agent agent = new Agent(node, MAXJUMPSAGENT);
                     node.addMessageToQueue(agent);
                 }
@@ -81,7 +81,7 @@ public class Grid {
             int eventId = 0;
             if(listOfEvents.size() > 0) {
                 eventId = randomGen.nextInt(listOfEvents.size());
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i <4; i++) {
                     fourRandomNodes.get(i).createRequest(eventId, MAXJUMPSREQUEST);
                 }
             }
