@@ -16,7 +16,7 @@ public class main {
         for (int i = 0; i < 10000; i++) {
             g.updateNodes();
             g.eventHappening();
-            Thread.sleep(1);
+            Thread.sleep(100);
         }
     }
 }

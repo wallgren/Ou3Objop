@@ -53,6 +53,8 @@ public class Agent extends Message {
 
     }
 
+    public Position getCurrNodePos(){ return currNode.getPos(); }
+
     /**
      * Updates the agents table of events, increasing the distance by 1 jump and adding direction for the latest node.
      */

@@ -1,3 +1,5 @@
+import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +16,7 @@ public class Grid extends JFrame{
     private int timeStep;
     private ArrayList<Node> listOfNodes;
     private ArrayList<Event> listOfEvents;
+    private ArrayList<Agent> listOfAgents;
     private ArrayList<Node> fourRandomNodes;
     private double PROBABILITYAGENT;
     private double PROBABILITYEVENT;
@@ -39,6 +42,7 @@ public class Grid extends JFrame{
         this.listOfNodes = listOfNodes;
         this.listOfEvents = new ArrayList<>();
         this.fourRandomNodes = new ArrayList<>();
+        this.listOfAgents = new ArrayList<>();
         this.PROBABILITYAGENT = PROBABILITYAGENT;
         this.PROBABILITYEVENT = PROBABILITYEVENT;
         this.COMLENGTH = COMLENGTH;
@@ -53,7 +57,7 @@ public class Grid extends JFrame{
                 count++;
             }
         }
-        img = ImageIO.read(new File("C:\\Users\\Max Holmberg\\Pictures\\grid.png"));
+        img = ImageIO.read(new File("/home/c16/c16gwn/Documents/background.png"));
         graphics = img.getGraphics();
         setPreferredSize(new Dimension(1000, 1000));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -90,6 +94,7 @@ public class Grid extends JFrame{
                 if(detectAgent()){
                     System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY());
                     Agent agent = new Agent(node, MAXJUMPSAGENT);
+                    listOfAgents.add(agent);
                     node.addMessageToQueue(agent);
                 }
             }
@@ -131,19 +136,18 @@ public class Grid extends JFrame{
             drawRektangle(node.getPos(), Color.BLACK);
             if(!node.eventsHereIsEmpty())
                 drawRektangle(node.getPos(), Color.green);
+            for(Agent a : listOfAgents) {
+                if(a.canMove())
+                    drawRektangle(a.getCurrNodePos(), Color.RED);
+            }
             if(node.getMessageQueue().size() > 0) {
-                if (node.getMessageQueue().get(0) instanceof Agent) {
-                    drawRektangle(node.getPos(), Color.RED);
-                }
-                else {
+                if (node.getMessageQueue().get(0) instanceof Request) {
                     drawRektangle(node.getPos(), Color.BLUE);
                 }
             }
-
             this.repaint();
         }
     }
-
 
     public void drawRektangle(Position p, Color c){
         graphics.setColor(c);
