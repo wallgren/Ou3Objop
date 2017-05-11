@@ -46,18 +46,21 @@ public class Request extends Message{
      */
     @Override
     public Node findNextNode(){
+        boolean beenHere = false;
         if(message == null ){
             if(currNode.getEventInfo(eventId) != null){
                 idFound = true;
                 directionNext = currNode.getEventInfo(eventId).get(1);
+                beenHere = true;
 
             }
             if(!idFound){
                 return currNode.getNeighbours().get(random.nextInt(currNode.getNeighbours().size()));
             }
-            else{
+            else if(beenHere){
                 return currNode.getNeighbours().get(directionNext);
             }
+            return null;
         }
         else{
             System.out.println("Is on way back");
