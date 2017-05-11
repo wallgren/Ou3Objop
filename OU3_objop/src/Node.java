@@ -36,36 +36,54 @@ public class Node {
             if(agentRT.containsKey(key)){
                 if(agentRT.get(key).get(0)<routingTable.get(key).get(0)){
                     //If agent has a shorter path, update the routingTable in the node.
-                    routingTable.get(key).set(0,agentRT.get(key).get(0));
-                    routingTable.get(key).set(1,agentRT.get(key).get(1));
+                    int pathNr=agentRT.get(key).get(0);
+                    int pathDir=agentRT.get(key).get(1);
+                    routingTable.get(key).set(0,pathNr);
+                    routingTable.get(key).set(1,pathDir);
                 }
-                else if(agentRT.get(key).get(0)>routingTable.get(key).get(0)){
+                else if(routingTable.get(key).get(0)<agentRT.get(key).get(0)){
                     //If node has a shorter path, update the routingTable in the agent.
+                    int pathNr=routingTable.get(key).get(0);
+                    int pathDir=routingTable.get(key).get(1);
                     agentRT.get(key).set(0,routingTable.get(key).get(0));
                     agentRT.get(key).set(1,routingTable.get(key).get(1));
                 }
             }
             else{
                 //If the node has an event the agent doesn't, add it.
-                agentRT.put(key, routingTable.get(key));
+                int pathNr=routingTable.get(key).get(0);
+                int pathDir=routingTable.get(key).get(1);
+                ArrayList<Integer> newList=new ArrayList<>();
+                newList.add(pathNr);
+                newList.add(pathDir);
+                agentRT.put(key, newList);
             }
         }
         for(int key: agentRT.keySet()){
             if(routingTable.containsKey(key)){
                 if(agentRT.get(key).get(0)<routingTable.get(key).get(0)){
                     //If agent has a shorter path, update the routingTable in the node.
-                    routingTable.get(key).set(0,agentRT.get(key).get(0));
-                    routingTable.get(key).set(1,agentRT.get(key).get(1));
+                    int pathNr=agentRT.get(key).get(0);
+                    int pathDir=agentRT.get(key).get(1);
+                    routingTable.get(key).set(0,pathNr);
+                    routingTable.get(key).set(1,pathDir);
                 }
-                else if(agentRT.get(key).get(0)>routingTable.get(key).get(0)){
+                else if(routingTable.get(key).get(0)<agentRT.get(key).get(0)){
                     //If node has a shorter path, update the routingTable in the agent.
+                    int pathNr=routingTable.get(key).get(0);
+                    int pathDir=routingTable.get(key).get(1);
                     agentRT.get(key).set(0,routingTable.get(key).get(0));
                     agentRT.get(key).set(1,routingTable.get(key).get(1));
                 }
             }
             else{
                 //If the agent has an event the node doesn't, add it.
-                routingTable.put(key, agentRT.get(key));
+                int pathNr=agentRT.get(key).get(0);
+                int pathDir=agentRT.get(key).get(1);
+                ArrayList<Integer> newList=new ArrayList<>();
+                newList.add(pathNr);
+                newList.add(pathDir);
+                routingTable.put(key, newList);
             }
         }
     }
@@ -144,7 +162,6 @@ public class Node {
         currentRequest=r;
         timeSinceRequest=0;
         addMessageToQueue(r);
-        System.out.println("Request created at:"+getPos().getX()+";"+getPos().getY());
         return r;
     }
 
@@ -169,14 +186,19 @@ public class Node {
      */
     private void moveMessage(){
         int a =messageQueue.size();
+
+        //Update the first message in the queue
         if(a!=0)
             messageQueue.get(0).update();
+
         //Make sure that if the first message in the queue has reached its final step, the next message is also updated
          while(a!=messageQueue.size()) {
             a=messageQueue.size();
             if(a!=0)
                 messageQueue.get(0).update();
         }
+
+        //Move the first message in the queue
         if (messageQueue.size() != 0)
             messageQueue.get(0).move();
 
@@ -234,6 +256,7 @@ public class Node {
         if(!isBusy)
             moveMessage();
         checkRequest();
+        this.isBusy=true;
     }
 
 }

@@ -29,14 +29,19 @@ public abstract class Message {
 
     /** Function that moves a message one step and adds the next ode to its path. */
     public void move(){
+        boolean a = (nextNode==currNode);
+
         currNode.removeFirstElement();
         previousNode = currNode;
-        if(nextNode == null)
-            System.out.println();
+
         currNode = nextNode;
         currNode.addMessageToQueue(this);
         jumps++;
-        path.push(currNode);
+        //This makes sure that if this message a request on the way back we don't push the current node to the path
+        //again
+        if(!a)
+            path.push(currNode);
+
         if(currNode.numberOfElementsInMessageQueue()==1)
             currNode.setBusy(true);
 

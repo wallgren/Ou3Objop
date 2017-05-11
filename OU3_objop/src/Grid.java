@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -37,13 +38,10 @@ public class Grid {
         this.MAXJUMPSAGENT = MAXJUMPSAGENT;
         this.MAXJUMPSREQUEST = MAXJUMPSREQUEST;
         fixNeighbours();
-        int count = 0;
-        while(count < 4){
-            int rN=randomGen.nextInt(listOfNodes.size());
-            if(!fourRandomNodes.contains(listOfNodes.get(rN))) {
-                fourRandomNodes.add(listOfNodes.get(rN));
-                count++;
-            }
+        ArrayList<Node> temporary = (ArrayList<Node>)listOfNodes.clone();
+        Collections.shuffle(temporary);
+        for (int i = 0; i < 4; i++) {
+            fourRandomNodes.add(temporary.get(i));
         }
     }
 
@@ -56,7 +54,6 @@ public class Grid {
      */
     public void eventHappening() throws Exception {
         timeStepIncrement();
-        System.out.println(timeStep);
 
         for(Node node : listOfNodes){
             node.setBusy(false);
@@ -89,13 +86,10 @@ public class Grid {
             /**
              * Randomizes the four next nodes
              */
-            int count = 0;
-            while(count < 4){
-                Node randomNode = listOfNodes.get(randomGen.nextInt(listOfNodes.size()));
-                if(!fourRandomNodes.contains(randomNode)) {
-                    fourRandomNodes.add(randomNode);
-                    count++;
-                }
+            ArrayList<Node> temporary = (ArrayList<Node>)listOfNodes.clone();
+            Collections.shuffle(temporary);
+            for (int i = 0; i < 4; i++) {
+                fourRandomNodes.add(temporary.get(i));
             }
         }
     }

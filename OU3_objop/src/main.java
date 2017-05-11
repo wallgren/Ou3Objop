@@ -8,7 +8,7 @@ public class main {
         ArrayList<Node> nodes = new ArrayList<>();
         for (int i = 0; i < 500; i+=10) {
             for (int j = 0; j < 500; j += 10) {
-                nodes.add(new Node(new Position(i, j)));
+                nodes.add(new Node(new Position(j,i)));
             }
         }
 
