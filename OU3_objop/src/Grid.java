@@ -8,6 +8,7 @@ import java.util.Random;
 public class Grid {
     private int timeStep;
     private ArrayList<Node> listOfNodes;
+    private ArrayList<Node> randomNodes;
     private ArrayList<Event> listOfEvents;
     private ArrayList<Node> fourRandomNodes;
     private double PROBABILITYAGENT;
@@ -38,10 +39,10 @@ public class Grid {
         this.MAXJUMPSAGENT = MAXJUMPSAGENT;
         this.MAXJUMPSREQUEST = MAXJUMPSREQUEST;
         fixNeighbours();
-        ArrayList<Node> temporary = (ArrayList<Node>)listOfNodes.clone();
-        Collections.shuffle(temporary);
+        randomNodes = (ArrayList<Node>)listOfNodes.clone();
+        Collections.shuffle(randomNodes);
         for (int i = 0; i < 4; i++) {
-            fourRandomNodes.add(temporary.get(i));
+            fourRandomNodes.add(randomNodes.get(i));
         }
     }
 
@@ -75,21 +76,12 @@ public class Grid {
          * nodes in the network
          */
         if(timeStep % 400 == 0){
-            int eventId = 0;
+            int eventId;
             if(listOfEvents.size() > 0) {
                 eventId = randomGen.nextInt(listOfEvents.size());
                 for (int i = 0; i <4; i++) {
                     fourRandomNodes.get(i).createRequest(eventId, MAXJUMPSREQUEST);
                 }
-            }
-            fourRandomNodes.clear();
-            /**
-             * Randomizes the four next nodes
-             */
-            ArrayList<Node> temporary = (ArrayList<Node>)listOfNodes.clone();
-            Collections.shuffle(temporary);
-            for (int i = 0; i < 4; i++) {
-                fourRandomNodes.add(temporary.get(i));
             }
         }
     }
