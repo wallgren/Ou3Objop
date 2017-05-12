@@ -24,6 +24,23 @@ public class PositionTest {
     }
 
     /**
+     * Test - Setting the position of several positions and
+     *        comparing them to see if they are the expected
+     */
+    @Test
+    public void shouldSetRightPosition(){
+        for (int y = 0; y < 100; y++) {
+            for (int x = 0; x < 100; x++) {
+                Position p = new Position(x, y);
+                p.setPos(x+1, y+1);
+                assertEquals(p.getX(), x+1);
+                assertEquals(p.getY(), y+1);
+            }
+        }
+    }
+
+
+    /**
      * Test - Two equal Positions should be equal when comparing with the
      *        equal method
      */

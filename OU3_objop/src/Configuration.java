@@ -14,7 +14,11 @@ public class Configuration {
 
     public Configuration(){}
 
-    public void setNodes(ArrayList<Node> nodes) { this.nodes = nodes; }
+    public void setNodes(ArrayList<Node> nodes) {
+        if(nodes.size() < 4)
+            throw new IllegalStateException("Grid less than four nodes");
+        this.nodes = nodes;
+    }
 
     public void setMaxJumpsRequest(int maxJumpsRequest) { this.maxJumpsRequest = maxJumpsRequest;}
 

@@ -13,6 +13,7 @@ public class Node {
     private ArrayList<Integer> timeSinceRequests;
     private ArrayList<Request> currentRequests;
     private ArrayList<Boolean> sentTwice;
+    boolean isBusy;
 
     public Node(Position p){
         routingTable=new HashMap<>();
@@ -23,6 +24,7 @@ public class Node {
         eventsHere=new HashMap<>();
         currentRequests=new ArrayList<>();
         sentTwice=new ArrayList<>();
+        isBusy=false;
     }
 
     /**
@@ -34,34 +36,53 @@ public class Node {
             if(agentRT.containsKey(key)){
                 if(agentRT.get(key).get(0)<routingTable.get(key).get(0)){
                     //If agent has a shorter path, update the routingTable in the node.
-                    routingTable.put(key, (ArrayList<Integer>)agentRT.get(key).clone());
+                    int pathNr=agentRT.get(key).get(0);
+                    int pathDir=agentRT.get(key).get(1);
+                    routingTable.get(key).set(0,pathNr);
+                    routingTable.get(key).set(1,pathDir);
                 }
                 else if(routingTable.get(key).get(0)<agentRT.get(key).get(0)){
-                    agentRT.put(key, (ArrayList<Integer>)routingTable.get(key).clone());
+                    //If node has a shorter path, update the routingTable in the agent.
+                    int pathNr=routingTable.get(key).get(0);
+                    int pathDir=routingTable.get(key).get(1);
+                    agentRT.get(key).set(0,routingTable.get(key).get(0));
+                    agentRT.get(key).set(1,routingTable.get(key).get(1));
                 }
             }
             else{
                 //If the node has an event the agent doesn't, add it.
-                ArrayList<Integer> newList = new ArrayList<>();
-                newList.add(routingTable.get(key).get(0));
-                newList.add(routingTable.get(key).get(1));
+                int pathNr=routingTable.get(key).get(0);
+                int pathDir=routingTable.get(key).get(1);
+                ArrayList<Integer> newList=new ArrayList<>();
+                newList.add(pathNr);
+                newList.add(pathDir);
                 agentRT.put(key, newList);
             }
         }
         for(int key: agentRT.keySet()){
             if(routingTable.containsKey(key)){
                 if(agentRT.get(key).get(0)<routingTable.get(key).get(0)){
-                    routingTable.put(key, (ArrayList<Integer>)agentRT.get(key).clone());
-
+                    //If agent has a shorter path, update the routingTable in the node.
+                    int pathNr=agentRT.get(key).get(0);
+                    int pathDir=agentRT.get(key).get(1);
+                    routingTable.get(key).set(0,pathNr);
+                    routingTable.get(key).set(1,pathDir);
                 }
                 else if(routingTable.get(key).get(0)<agentRT.get(key).get(0)){
-                    agentRT.put(key, (ArrayList<Integer>)routingTable.get(key).clone());
+                    //If node has a shorter path, update the routingTable in the agent.
+                    int pathNr=routingTable.get(key).get(0);
+                    int pathDir=routingTable.get(key).get(1);
+                    agentRT.get(key).set(0,routingTable.get(key).get(0));
+                    agentRT.get(key).set(1,routingTable.get(key).get(1));
                 }
             }
             else{
-                ArrayList<Integer> newList = new ArrayList<>();
-                newList.add(agentRT.get(key).get(0));
-                newList.add(agentRT.get(key).get(1));
+                //If the agent has an event the node doesn't, add it.
+                int pathNr=agentRT.get(key).get(0);
+                int pathDir=agentRT.get(key).get(1);
+                ArrayList<Integer> newList=new ArrayList<>();
+                newList.add(pathNr);
+                newList.add(pathDir);
                 routingTable.put(key, newList);
             }
         }
@@ -77,6 +98,14 @@ public class Node {
         a.add(0,0);
         a.add(1,0);
         routingTable.put(e.getId(),a);
+    }
+
+    /**
+     *
+     * @param a
+     */
+    public void setBusy(boolean a){
+        isBusy=a;
     }
 
     /**
@@ -151,25 +180,22 @@ public class Node {
      * to move and update.
      */
     private void moveMessage(){
-        int previousSize = messageQueue.size();
+        int a =messageQueue.size();
 
         //Update the first message in the queue
-        if(previousSize != 0){
+        if(a!=0)
             messageQueue.get(0).update();
-        }
 
         //Make sure that if the first message in the queue has reached its final step, the next message is also updated
-        while(previousSize != messageQueue.size()) {
-            previousSize = messageQueue.size();
-            if(previousSize != 0){
+        while(a!=messageQueue.size()) {
+            a=messageQueue.size();
+            if(a!=0)
                 messageQueue.get(0).update();
-            }
         }
 
         //Move the first message in the queue
-        if (messageQueue.size() != 0 && !messageQueue.get(0).nextNodeIsBusy()){
+        if (messageQueue.size() != 0)
             messageQueue.get(0).move();
-        }
 
     }
 
@@ -230,8 +256,10 @@ public class Node {
      *Description: Updates messages in the queue of this node and the request started from this node if such exists.
      */
     public void update(){
-        moveMessage();
+        if(!isBusy)
+            moveMessage();
         checkRequest();
+        this.isBusy=true;
     }
 
 }

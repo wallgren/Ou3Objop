@@ -20,16 +20,12 @@ public class main {
         config.setComlength(15);
         config.setMaxJumpsAgent(50);
         config.setMaxJumpsRequest(45);
-
         Grid g = new Grid(config, false);
-        long timeBefore = System.nanoTime();
         for (int i = 0; i < 10000; i++) {
             g.updateNodes();
             g.eventHappening();
             if(i % 1000 == 0)
               System.out.println(i);
         }
-        long timeAfter = System.nanoTime();
-        System.out.printf("Time: %.6f seconds.", (double)(timeAfter - timeBefore)/Math.pow(10, 9));
     }
 }

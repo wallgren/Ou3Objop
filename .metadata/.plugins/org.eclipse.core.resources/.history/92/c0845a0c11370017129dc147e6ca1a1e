@@ -43,7 +43,12 @@ public abstract class Message {
         if(!a)
             path.push(currNode);
 
+        if(currNode.numberOfElementsInMessageQueue()==1)
+            currNode.setBusy(true);
+
     }
     
-    public boolean nextNodeIsBusy(){ return nextNode.numberOfElementsInMessageQueue() != 0; }
+    public boolean isUpdated(){ return updated; }
+    
+    public void setUpdated(boolean bool){ updated = bool;}
 }

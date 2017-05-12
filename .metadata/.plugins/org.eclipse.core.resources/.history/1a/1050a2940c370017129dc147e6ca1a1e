@@ -1,11 +1,3 @@
-
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -13,13 +5,12 @@ import java.util.Random;
 /**
  * Class - Grid represents the network with all the nodes in it
  */
-public class Grid extends JFrame{
+public class Grid {
     private int timeStep;
     private ArrayList<Node> listOfNodes;
     private ArrayList<Node> randomNodes;
     private ArrayList<Event> listOfEvents;
     private ArrayList<Node> fourRandomNodes;
-    private ArrayList<Agent> listOfAgents;
     private double PROBABILITYAGENT;
     private double PROBABILITYEVENT;
     private int COMLENGTH;
@@ -27,61 +18,32 @@ public class Grid extends JFrame{
     private int MAXJUMPSREQUEST;
     private Random randomGen = new Random();
     private int nextIdGenertor;
-    private BufferedImage image;
-    private Graphics graphics;
-    private boolean GUI;
 
     /**
-     *  JFRAME CONFIGURATIONS
-     *
+     * Constructor        - Creates the grid with a list of nodes
+     * @param listOfNodes
+     * @param PROBABILITYAGENT
+     * @param PROBABILITYEVENT
+     * @param COMLENGTH
+     * @param MAXJUMPSAGENT
+     * @param MAXJUMPSREQUEST
      */
-
-    @Override
-    public void paint(Graphics g){
-        g.drawImage(image, 50, 50, 800, 800, null);
-    }
-
-    public void drawRectangle(Position p, Color c){
-        graphics.setColor(c);
-        graphics.fillRect(p.getX()+1, p.getY()+1, 8, 8);
-    }
-    /**
-     * *****************************************************************************
-     */
-
-
-    /**
-     * Constructor        - Creates the grid with a configuration class
-     * @Param Configuration config
-     */
-    public Grid(Configuration config, boolean GUI) throws IOException {
-        this.listOfNodes = config.getNodes();
+    public Grid(ArrayList<Node> listOfNodes, double PROBABILITYAGENT,
+                double PROBABILITYEVENT, int COMLENGTH, int MAXJUMPSAGENT, int MAXJUMPSREQUEST){
+        this.listOfNodes = listOfNodes;
         this.listOfEvents = new ArrayList<>();
         this.fourRandomNodes = new ArrayList<>();
-        this.listOfAgents = new ArrayList<>();
-        this.PROBABILITYAGENT = config.getAgentProbability();
-        this.PROBABILITYEVENT = config.getEventProbability();
-        this.COMLENGTH = config.getComlength();
-        this.MAXJUMPSAGENT = config.getMaxJumpsAgent();
-        this.MAXJUMPSREQUEST = config.getMaxJumpsRequest();
-        this.GUI = GUI;
+        this.PROBABILITYAGENT = PROBABILITYAGENT;
+        this.PROBABILITYEVENT = PROBABILITYEVENT;
+        this.COMLENGTH = COMLENGTH;
+        this.MAXJUMPSAGENT = MAXJUMPSAGENT;
+        this.MAXJUMPSREQUEST = MAXJUMPSREQUEST;
         fixNeighbours();
         randomNodes = (ArrayList<Node>)listOfNodes.clone();
         Collections.shuffle(randomNodes);
         for (int i = 0; i < 4; i++) {
             fourRandomNodes.add(randomNodes.get(i));
         }
-
-        //Read image and pack/set visibleFrame
-        if(GUI){
-          image = ImageIO.read(new File("/home/dv16/dv16mhg/Documents/background.png"));
-          graphics = image.getGraphics();
-          setPreferredSize(new Dimension(1000, 900));
-          setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-          pack();
-          setVisible(true);
-        }
-
     }
 
     /**
@@ -95,6 +57,7 @@ public class Grid extends JFrame{
         timeStepIncrement();
 
         for(Node node : listOfNodes){
+            node.setBusy(false);
             if(detectEvent()){
                 nextIdGenertor++;
                 Event e= new Event(node.getPos(), nextIdGenertor, timeStep);
@@ -104,7 +67,6 @@ public class Grid extends JFrame{
                     //System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY());
                     Agent agent = new Agent(node, MAXJUMPSAGENT);
                     node.addMessageToQueue(agent);
-                    listOfAgents.add(agent);
                 }
             }
         }
@@ -128,32 +90,20 @@ public class Grid extends JFrame{
      * Method - Updates all the nodes
      */
     public void updateNodes(){
-        for(Node node : listOfNodes) {
+        if(timeStep==400)
+            System.out.println();
+        for(Node node : listOfNodes)
             node.update();
-            if(GUI){
-                drawRectangle(node.getPos(), Color.black);
-                if(!node.eventsHereIsEmpty())
-                    drawRectangle(node.getPos(), Color.green);
-                if(node.getMessageOnTop() != null) {
-                    if(node.getMessageOnTop() instanceof Request)
-                        drawRectangle(node.getPos(), Color.BLUE);
-                }
-                for(Agent agent : listOfAgents){
-                    if(agent.canMove())
-                        drawRectangle(agent.currNode.getPos(), Color.RED);
-                }
-            }
-        }
-        repaint();
     }
-
 
     /**
      * Method  - Returns true if an Event is happening
      * @return boolean
      */
     private boolean detectEvent(){
-        return randomGen.nextDouble() <= PROBABILITYEVENT;
+        double a =randomGen.nextDouble();
+        boolean b =a <= PROBABILITYEVENT;
+        return b;
     }
 
     /**
