@@ -57,7 +57,6 @@ public class Grid {
         timeStepIncrement();
 
         for(Node node : listOfNodes){
-            node.setBusy(false);
             if(detectEvent()){
                 nextIdGenertor++;
                 Event e= new Event(node.getPos(), nextIdGenertor, timeStep);
@@ -90,8 +89,6 @@ public class Grid {
      * Method - Updates all the nodes
      */
     public void updateNodes(){
-        if(timeStep==400)
-            System.out.println();
         for(Node node : listOfNodes)
             node.update();
     }
@@ -101,9 +98,7 @@ public class Grid {
      * @return boolean
      */
     private boolean detectEvent(){
-        double a =randomGen.nextDouble();
-        boolean b =a <= PROBABILITYEVENT;
-        return b;
+        return randomGen.nextDouble()<= PROBABILITYEVENT;
     }
 
     /**

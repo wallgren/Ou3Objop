@@ -13,7 +13,6 @@ public class Node {
     private ArrayList<Integer> timeSinceRequests;
     private ArrayList<Request> currentRequests;
     private ArrayList<Boolean> sentTwice;
-    boolean isBusy;
 
     public Node(Position p){
         routingTable=new HashMap<>();
@@ -24,7 +23,6 @@ public class Node {
         eventsHere=new HashMap<>();
         currentRequests=new ArrayList<>();
         sentTwice=new ArrayList<>();
-        isBusy=false;
     }
 
     /**
@@ -101,14 +99,6 @@ public class Node {
     }
 
     /**
-     *
-     * @param a
-     */
-    public void setBusy(boolean a){
-        isBusy=a;
-    }
-
-    /**
      * Description: Returns the informaiton associated with an event-id in the routingTable.
      * @param id : the id we want info about
      * @return an arraylist with the info. index 0: The distance to event, index 1: the direction to event, described
@@ -141,8 +131,6 @@ public class Node {
     public ArrayList<Node> getNeighbours(){
         return neighbours;
     }
-
-
 
     /**
      * Description: Creates a request from this node, with a destination "id". This method is called from grid.
@@ -180,22 +168,25 @@ public class Node {
      * to move and update.
      */
     private void moveMessage(){
-        int a =messageQueue.size();
+        int previousSize = messageQueue.size();
 
         //Update the first message in the queue
-        if(a!=0)
+        if(previousSize != 0){
             messageQueue.get(0).update();
+        }
 
         //Make sure that if the first message in the queue has reached its final step, the next message is also updated
-         while(a!=messageQueue.size()) {
-            a=messageQueue.size();
-            if(a!=0)
+        while(previousSize != messageQueue.size()) {
+            previousSize = messageQueue.size();
+            if(previousSize != 0){
                 messageQueue.get(0).update();
+            }
         }
 
         //Move the first message in the queue
-        if (messageQueue.size() != 0)
+        if (messageQueue.size() != 0 && !messageQueue.get(0).nextNodeIsBusy()){
             messageQueue.get(0).move();
+        }
 
     }
 
@@ -247,10 +238,7 @@ public class Node {
      *Description: Updates messages in the queue of this node and the request started from this node if such exists.
      */
     public void update(){
-        if(!isBusy)
-            moveMessage();
+        moveMessage();
         checkRequest();
-        this.isBusy=true;
     }
-
 }

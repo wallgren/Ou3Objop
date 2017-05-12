@@ -67,13 +67,17 @@ public class Request extends Message{
      * Method - Returns eventId
      * @return int
      */
-    public int getEventId(){ return eventId; }
+    public int getEventId(){
+        return eventId;
+    }
 
     /**
      * Method - Returns MAXJUMPS of the Request
      * @return int
      */
-    public int getMaxJumps(){ return MAXJUMPS; }
+    public int getMaxJumps(){
+        return MAXJUMPS;
+    }
 
     /**
      * Method  - Returns true if the Request have returned
