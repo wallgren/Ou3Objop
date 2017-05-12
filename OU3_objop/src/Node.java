@@ -10,9 +10,9 @@ public class Node {
     private Position pos;
     private ArrayList<Message> messageQueue;
     private HashMap<Integer, Event> eventsHere;
-    private int timeSinceRequest;
-    private Request currentRequest;
-    private boolean sentTwice;
+    private ArrayList<Integer> timeSinceRequests;
+    private ArrayList<Request> currentRequests;
+    private ArrayList<Boolean> sentTwice;
     boolean isBusy;
 
     public Node(Position p){
@@ -20,15 +20,12 @@ public class Node {
         neighbours=new ArrayList<>();
         messageQueue=new ArrayList<>();
         pos=p;
-        timeSinceRequest=0;
+        timeSinceRequests=new ArrayList<>();
         eventsHere=new HashMap<>();
-        currentRequest=null;
-        sentTwice=false;
+        currentRequests=new ArrayList<>();
+        sentTwice=new ArrayList<>();
         isBusy=false;
     }
-
-
-    public boolean eventsHereIsEmpty(){return eventsHere.isEmpty(); }
 
     /**
      * Description: Compare two routingTables with each other, update with the shortest path to the event
@@ -91,7 +88,6 @@ public class Node {
         }
     }
 
-
     /**
      * Description: Adds an event to this node as a new event, both in routingTable and in eventsHere-list
      * @param e : the event to add
@@ -146,9 +142,7 @@ public class Node {
         return neighbours;
     }
 
-    public boolean hasRequest(){
-        return currentRequest != null;
-    }
+
 
     /**
      * Description: Creates a request from this node, with a destination "id". This method is called from grid.
@@ -158,17 +152,11 @@ public class Node {
      * @return : the request created
      */
     public Request createRequest(int id, int MAXJUMPS) throws IllegalStateException{
-        //If the node already has an active request, throw an error as this ain't supposed to happen
-        // OM DETTA KOMMENTERAS BORT SÅ KÖRS PROGRAMMET IGENOM, DOCK SKRIVS REQEUSTS ÖVER, DETTA GÖR ATT
-        // MAN INTE KAN SKAPA TVÅ REQUESTS PÅ SAMMA NOD
-        if(currentRequest!=null){
-            throw new IllegalStateException("Two requests created from same node");
-        }
         Request r = new Request(this, id,MAXJUMPS);
-        currentRequest=r;
-        timeSinceRequest=0;
+        currentRequests.add(r);
+        timeSinceRequests.add(0);
+        sentTwice.add(false);
         addMessageToQueue(r);
-        //System.out.println("Request created at:"+getPos().getX()+";"+getPos().getY());
         return r;
     }
 
@@ -193,14 +181,19 @@ public class Node {
      */
     private void moveMessage(){
         int a =messageQueue.size();
+
+        //Update the first message in the queue
         if(a!=0)
             messageQueue.get(0).update();
+
         //Make sure that if the first message in the queue has reached its final step, the next message is also updated
         while(a!=messageQueue.size()) {
             a=messageQueue.size();
             if(a!=0)
                 messageQueue.get(0).update();
         }
+
+        //Move the first message in the queue
         if (messageQueue.size() != 0)
             messageQueue.get(0).move();
 
@@ -218,40 +211,47 @@ public class Node {
         return null;
     }
 
+
+    public boolean eventsHereIsEmpty(){ return eventsHere.isEmpty(); }
+
     /**
      * Description: If this node has sent out a request, this method checks that requests status, prints its message
      * if it has returned, and removes it if enough time has passed.
      */
     private void checkRequest(){
-        if(currentRequest!=null){
-            if(timeSinceRequest<=currentRequest.getMaxJumps()*8){
-                if(currentRequest.hasReturned()){
-                    System.out.println(currentRequest.getMessage());
-                    currentRequest=null;
-                    timeSinceRequest=0;
-                    sentTwice=false;
+        for (int i = 0; i < currentRequests.size(); i++) {
+            if(timeSinceRequests.get(i)<=currentRequests.get(i).getMaxJumps()*8){
+                if(currentRequests.get(i).hasReturned()){
+                    System.out.println(currentRequests.get(i).getMessage());
+                    currentRequests.remove(i);
+                    timeSinceRequests.remove(i);
+                    sentTwice.set(i, false);
                 }else
-                    timeSinceRequest++;
-            }else if(!sentTwice){
+                    timeSinceRequests.set(i, timeSinceRequests.get(i)+1);
+            }else if(sentTwice.get(i)==false){
                 //If a request times out we should send out a new request for the same event once more.
-                sentTwice=true;
-                int id = currentRequest.getEventId();
-                int maxJ=currentRequest.getMaxJumps();
-                currentRequest=null;
-                currentRequest=createRequest(id, maxJ);
+                sentTwice.set(i, true);
+                int id = currentRequests.get(i).getEventId();
+                int maxJ=currentRequests.get(i).getMaxJumps();
+                currentRequests.set(i,createRequest(id, maxJ));
             }else{
-                currentRequest=null;
-                timeSinceRequest=0;
-                sentTwice=false;
+                currentRequests.remove(i);
+                timeSinceRequests.remove(i);
+                sentTwice.remove(i);
             }
         }
+    }
+
+    public Message getMessageOnTop(){
+        if(!messageQueue.isEmpty())
+            return messageQueue.get(0);
+        return null;
     }
 
     public int numberOfElementsInMessageQueue(){
         return messageQueue.size();
     }
 
-    public ArrayList<Message> getMessageQueue(){ return messageQueue; }
     /**
      *Description: Updates messages in the queue of this node and the request started from this node if such exists.
      */
@@ -259,6 +259,7 @@ public class Node {
         if(!isBusy)
             moveMessage();
         checkRequest();
+        this.isBusy=true;
     }
 
 }

@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -6,17 +8,23 @@ import java.util.ArrayList;
 public class main {
     public static void main(String[] args) throws Exception {
         ArrayList<Node> nodes = new ArrayList<>();
-        for (int j = 0; j < 100; j += 10) {
-            for (int i = 0; i < 100; i += 10) {
-                nodes.add(new Node(new Position(i, j)));
+        for (int i = 0; i < 500; i+=10) {
+            for (int j = 0; j < 500; j += 10) {
+                nodes.add(new Node(new Position(j,i)));
             }
         }
-        Grid g = new Grid(nodes, 0.5, 0.0001, 15, 50, 45);
-
+        Configuration config = new Configuration();
+        config.setNodes(nodes);
+        config.setAgentProbability(0.5);
+        config.setEventProbability(0.0001);
+        config.setComlength(15);
+        config.setMaxJumpsAgent(50);
+        config.setMaxJumpsRequest(45);
+        Grid g = new Grid(config);
         for (int i = 0; i < 10000; i++) {
-            g.eventHappening();
             g.updateNodes();
-            //System.out.println(i);
+            g.eventHappening();
+            Thread.sleep(200);
         }
     }
 }

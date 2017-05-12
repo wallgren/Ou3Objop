@@ -1,4 +1,5 @@
-import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
+import javafx.geometry.Pos;
+import sun.security.krb5.Config;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,9 +17,10 @@ import java.util.Random;
 public class Grid extends JFrame{
     private int timeStep;
     private ArrayList<Node> listOfNodes;
+    private ArrayList<Node> randomNodes;
     private ArrayList<Event> listOfEvents;
-    private ArrayList<Agent> listOfAgents;
     private ArrayList<Node> fourRandomNodes;
+    private ArrayList<Agent> listOfAgents;
     private double PROBABILITYAGENT;
     private double PROBABILITYEVENT;
     private int COMLENGTH;
@@ -26,49 +28,58 @@ public class Grid extends JFrame{
     private int MAXJUMPSREQUEST;
     private Random randomGen = new Random();
     private int nextIdGenertor;
+    private BufferedImage image;
     private Graphics graphics;
-    private BufferedImage img;
 
     /**
-     * Constructor        - Creates the grid with a list of nodes
-     * @param listOfNodes
-     * @param PROBABILITYAGENT
-     * @param PROBABILITYEVENT
-     * @param COMLENGTH
-     * @param MAXJUMPSAGENT
-     * @param MAXJUMPSREQUEST
+     *  JFRAME CONFIGURATIONS
+     *
      */
-    public Grid(ArrayList<Node> listOfNodes, double PROBABILITYAGENT,
-                double PROBABILITYEVENT, int COMLENGTH, int MAXJUMPSAGENT, int MAXJUMPSREQUEST) throws IOException {
-        this.listOfNodes = listOfNodes;
-        this.listOfEvents = new ArrayList<>();
-        this.fourRandomNodes = new ArrayList<>();
-        this.listOfAgents = new ArrayList<>();
-        this.PROBABILITYAGENT = PROBABILITYAGENT;
-        this.PROBABILITYEVENT = PROBABILITYEVENT;
-        this.COMLENGTH = COMLENGTH;
-        this.MAXJUMPSAGENT = MAXJUMPSAGENT;
-        this.MAXJUMPSREQUEST = MAXJUMPSREQUEST;
-        fixNeighbours();
-        ArrayList<Node> temporary = (ArrayList<Node>)listOfNodes.clone();
-        Collections.shuffle(temporary);
-        for (int i = 0; i < 4; i++) {
-            fourRandomNodes.add(temporary.get(i));
-        }
-        img = ImageIO.read(new File("/home/dv16/dv16mhg/Documents/background.png"));
-        graphics = img.getGraphics();
-        setPreferredSize(new Dimension(1440, 2560));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
-        setVisible(true);
-    }
 
     @Override
     public void paint(Graphics g){
-        g.drawImage(img, 50, 50, 2560-300, 1440-300, null);
+        g.drawImage(image, 50, 50, 800, 800, null);
     }
 
+    public void drawRectangle(Position p, Color c){
+        graphics.setColor(c);
+        graphics.fillRect(p.getX()+1, p.getY()+1, 8, 8);
+    }
+    /**
+     * *****************************************************************************
+     */
 
+
+    /**
+     * Constructor        - Creates the grid with a configuration class
+     * @Param Configuration config
+     */
+    public Grid(Configuration config) throws IOException {
+        this.listOfNodes = config.getNodes();
+        this.listOfEvents = new ArrayList<>();
+        this.fourRandomNodes = new ArrayList<>();
+        this.listOfAgents = new ArrayList<>();
+        this.PROBABILITYAGENT = config.getAgentProbability();
+        this.PROBABILITYEVENT = config.getEventProbability();
+        this.COMLENGTH = config.getComlength();
+        this.MAXJUMPSAGENT = config.getMaxJumpsAgent();
+        this.MAXJUMPSREQUEST = config.getMaxJumpsRequest();
+        fixNeighbours();
+        randomNodes = (ArrayList<Node>)listOfNodes.clone();
+        Collections.shuffle(randomNodes);
+        for (int i = 0; i < 4; i++) {
+            fourRandomNodes.add(randomNodes.get(i));
+        }
+
+        //Read image and pack/set visibleFrame
+        image = ImageIO.read(new File("C:\\Users\\Max Holmberg\\Pictures\\grid.png"));
+        graphics = image.getGraphics();
+        setPreferredSize(new Dimension(1000, 900));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setVisible(true);
+
+    }
 
     /**
      * Method - This method is called everytime a time tick is represented,
@@ -79,7 +90,6 @@ public class Grid extends JFrame{
      */
     public void eventHappening() throws Exception {
         timeStepIncrement();
-       // System.out.println(timeStep);
 
         for(Node node : listOfNodes){
             node.setBusy(false);
@@ -89,10 +99,10 @@ public class Grid extends JFrame{
                 node.addEvent(e);
                 listOfEvents.add(e);
                 if(detectAgent()){
-                    //System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY() + " at time " + timeStep);
+                    //System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY());
                     Agent agent = new Agent(node, MAXJUMPSAGENT);
-                    listOfAgents.add(agent);
                     node.addMessageToQueue(agent);
+                    listOfAgents.add(agent);
                 }
             }
         }
@@ -102,29 +112,13 @@ public class Grid extends JFrame{
          * nodes in the network
          */
         if(timeStep % 400 == 0){
-            int eventId = 0;
+            int eventId;
             if(listOfEvents.size() > 0) {
                 eventId = randomGen.nextInt(listOfEvents.size());
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i <4; i++) {
                     fourRandomNodes.get(i).createRequest(eventId, MAXJUMPSREQUEST);
                 }
             }
-            fourRandomNodes.clear();
-            /**
-             * Randomizes the four next nodes
-             */
-            ArrayList<Node> temporary = (ArrayList<Node>)listOfNodes.clone();
-            Collections.shuffle(temporary);
-            int count = 0;
-            int i = 0;
-            while(count < 4){
-                if(!temporary.get(i).hasRequest()) {
-                    fourRandomNodes.add(temporary.get(i));
-                    count++;
-                }
-                i++;
-            }
-
         }
     }
 
@@ -134,26 +128,21 @@ public class Grid extends JFrame{
     public void updateNodes(){
         for(Node node : listOfNodes) {
             node.update();
-            drawRektangle(node.getPos(), Color.BLACK);
+            drawRectangle(node.getPos(), Color.black);
             if(!node.eventsHereIsEmpty())
-                drawRektangle(node.getPos(), Color.green);
-            for(Agent a : listOfAgents) {
-                if(a.canMove())
-                    drawRektangle(a.getCurrNodePos(), Color.RED);
+                drawRectangle(node.getPos(), Color.green);
+            if(node.getMessageOnTop() != null) {
+                if(node.getMessageOnTop() instanceof Request)
+                    drawRectangle(node.getPos(), Color.BLUE);
             }
-            if(node.getMessageQueue().size() > 0) {
-                if (node.getMessageQueue().get(0) instanceof Request) {
-                    drawRektangle(node.getPos(), Color.YELLOW);
-                }
+            for(Agent agent : listOfAgents){
+                if(agent.canMove())
+                    drawRectangle(agent.currNode.getPos(), Color.RED);
             }
-            this.repaint();
         }
+        repaint();
     }
 
-    public void drawRektangle(Position p, Color c){
-        graphics.setColor(c);
-        graphics.fillRect(p.getX()+10, p.getY()+10, 8, 8);
-    }
 
     /**
      * Method  - Returns true if an Event is happening
