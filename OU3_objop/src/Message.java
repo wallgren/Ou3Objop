@@ -10,6 +10,7 @@ public abstract class Message {
     protected Stack<Node> path = new Stack<>();
     protected Node currNode, nextNode, previousNode;
     protected Random random = new Random();
+    protected boolean updated;
 
     /** Creates a new message.
      * @param MAXJUMPS The maximum number of jumps that a message can make.
@@ -42,8 +43,11 @@ public abstract class Message {
         if(!a)
             path.push(currNode);
 
-        if(currNode.numberOfElementsInMessageQueue()==1)
-            currNode.setBusy(true);
-
     }
+    
+    public boolean isUpdated(){ return updated; }
+    
+    public void setUpdated(boolean bool){ updated = bool;}
+    
+    public boolean nextNodeIsBusy(){ return nextNode.numberOfElementsInMessageQueue() != 0; }
 }

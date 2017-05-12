@@ -1,5 +1,4 @@
-import javafx.geometry.Pos;
-import sun.security.krb5.Config;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -30,6 +29,7 @@ public class Grid extends JFrame{
     private int nextIdGenertor;
     private BufferedImage image;
     private Graphics graphics;
+    private boolean GUI;
 
     /**
      *  JFRAME CONFIGURATIONS
@@ -54,7 +54,7 @@ public class Grid extends JFrame{
      * Constructor        - Creates the grid with a configuration class
      * @Param Configuration config
      */
-    public Grid(Configuration config) throws IOException {
+    public Grid(Configuration config, boolean GUI) throws IOException {
         this.listOfNodes = config.getNodes();
         this.listOfEvents = new ArrayList<>();
         this.fourRandomNodes = new ArrayList<>();
@@ -64,6 +64,7 @@ public class Grid extends JFrame{
         this.COMLENGTH = config.getComlength();
         this.MAXJUMPSAGENT = config.getMaxJumpsAgent();
         this.MAXJUMPSREQUEST = config.getMaxJumpsRequest();
+        this.GUI = GUI;
         fixNeighbours();
         randomNodes = (ArrayList<Node>)listOfNodes.clone();
         Collections.shuffle(randomNodes);
@@ -72,12 +73,14 @@ public class Grid extends JFrame{
         }
 
         //Read image and pack/set visibleFrame
-        image = ImageIO.read(new File("C:\\Users\\Max Holmberg\\Pictures\\grid.png"));
-        graphics = image.getGraphics();
-        setPreferredSize(new Dimension(1000, 900));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
-        setVisible(true);
+        if(GUI){
+          image = ImageIO.read(new File("H:\\Documents\\background.png"));
+          graphics = image.getGraphics();
+          setPreferredSize(new Dimension(1000, 900));
+          setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+          pack();
+          setVisible(true);
+        }
 
     }
 
@@ -92,7 +95,6 @@ public class Grid extends JFrame{
         timeStepIncrement();
 
         for(Node node : listOfNodes){
-            node.setBusy(false);
             if(detectEvent()){
                 nextIdGenertor++;
                 Event e= new Event(node.getPos(), nextIdGenertor, timeStep);
@@ -128,16 +130,18 @@ public class Grid extends JFrame{
     public void updateNodes(){
         for(Node node : listOfNodes) {
             node.update();
-            drawRectangle(node.getPos(), Color.black);
-            if(!node.eventsHereIsEmpty())
-                drawRectangle(node.getPos(), Color.green);
-            if(node.getMessageOnTop() != null) {
-                if(node.getMessageOnTop() instanceof Request)
-                    drawRectangle(node.getPos(), Color.BLUE);
-            }
-            for(Agent agent : listOfAgents){
-                if(agent.canMove())
-                    drawRectangle(agent.currNode.getPos(), Color.RED);
+            if(GUI){
+                drawRectangle(node.getPos(), Color.black);
+                if(!node.eventsHereIsEmpty())
+                    drawRectangle(node.getPos(), Color.green);
+                if(node.getMessageOnTop() != null) {
+                    if(node.getMessageOnTop() instanceof Request)
+                        drawRectangle(node.getPos(), Color.BLUE);
+                }
+                for(Agent agent : listOfAgents){
+                    if(agent.canMove())
+                        drawRectangle(agent.currNode.getPos(), Color.RED);
+                }
             }
         }
         repaint();
@@ -149,9 +153,7 @@ public class Grid extends JFrame{
      * @return boolean
      */
     private boolean detectEvent(){
-        double a =randomGen.nextDouble();
-        boolean b =a <= PROBABILITYEVENT;
-        return b;
+        return randomGen.nextDouble() <= PROBABILITYEVENT;
     }
 
     /**

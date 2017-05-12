@@ -20,11 +20,12 @@ public class main {
         config.setComlength(15);
         config.setMaxJumpsAgent(50);
         config.setMaxJumpsRequest(45);
-        Grid g = new Grid(config);
+        Grid g = new Grid(config, false);
         for (int i = 0; i < 10000; i++) {
             g.updateNodes();
             g.eventHappening();
-            Thread.sleep(200);
+            if(i % 1000 == 0)
+              System.out.println(i);
         }
     }
 }
