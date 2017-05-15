@@ -10,6 +10,4 @@ public class AgentTest {
         new Agent(new Node(new Position(0,0)),50);
     }
 
-    @Test
-    public void
 }
