@@ -15,27 +15,19 @@ public class Agent extends Message {
         super(startNode,MAXJUMPS);
     }
 
-    /** Check if the maximum number of moves is reached.
-     * @return True if the agent can move, false otherwise. */
-    public boolean canMove(){
-        return jumps < MAXJUMPS;
-    }
-
+    /**
+     * Method - Returns the nodes that the agent can walk to
+     * @return ArrayList<Node>
+     */
     /* Check which nodes are valid moves */
     private ArrayList<Node> getMovableNeighbours() {
-        ArrayList<Node> movableNeighbours = new ArrayList<Node>();
+        ArrayList<Node> movableNeighbours = new ArrayList<>();
         for (Node node : currNode.getNeighbours()) {
             if (!path.contains(node)) {
                 movableNeighbours.add(node);
             }
         }
         return movableNeighbours;
-    }
-
-    /* Pick a random node from list */
-    private Node getRandomNode(ArrayList<Node> nodes){
-        int nextNodeIndex = random.nextInt(nodes.size());
-        return nodes.get(nextNodeIndex);
     }
 
     /** Synchronises the agent's information with a node. */
@@ -55,9 +47,9 @@ public class Agent extends Message {
      * Updates the agents table of events, increasing the distance by 1 jump and adding direction for the latest node.
      */
     public void updateOwnTable(){
-        for(int key: routingTable.keySet()){
-            routingTable.get(key).setStepsAndDirection(routingTable.get(key).getSteps()+1, currNode.getNeighbours().indexOf(previousNode));
-        }
+        for(int key: routingTable.keySet())
+            routingTable.get(key).setStepsAndDirection(routingTable.get(key).getSteps()+1,
+                    currNode.getNeighbours().indexOf(previousNode));
     }
 
     /**

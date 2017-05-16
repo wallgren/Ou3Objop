@@ -4,7 +4,6 @@
 public class Request extends Message{
     private int eventId;
     private String message;
-    private boolean idFound;
     private int directionNext;
 
     /**
@@ -48,7 +47,6 @@ public class Request extends Message{
     public Node findNextNode(){
         if(message == null ){
             if(currNode.getEventInfo(eventId) != null){
-                idFound = true;
                 directionNext = currNode.getEventInfo(eventId).getDirection();
                 return currNode.getNeighbours().get(directionNext);
             } else

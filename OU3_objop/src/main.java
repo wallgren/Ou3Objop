@@ -21,8 +21,8 @@ public class main {
         Grid g = new Grid(config);
 
         for (int i = 0; i < 10000; i++) {
-            g.updateNodes();
             g.eventHappening();
+            g.updateNodes();
         }
     }
 }
