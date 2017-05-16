@@ -9,7 +9,7 @@ public class Configuration {
     private ArrayList<Node> nodes;
     private double agentProbability;
     private double eventProbability;
-    private int comLength;
+    private int comlength;
     private int maxJumpsAgent;
     private int maxJumpsRequest;
 
@@ -44,7 +44,7 @@ public class Configuration {
      * Method - Sets the comLength to the given parameter
      * @param comlength
      */
-    public void setComlength(int comlength) {this.comLength = comlength;}
+    public void setComlength(int comlength) {this.comlength = comlength;}
 
     /**
      * Method - Sets the eventProbability to the given parameter
@@ -57,10 +57,6 @@ public class Configuration {
      * @param agentProbability
      */
     public void setAgentProbability(double agentProbability) {this.agentProbability = agentProbability;}
-
-    public ArrayList<Node> getNodes() {
-        return nodes;
-    }
 
     /**
      * Method - Gets the maxJumpsRequest
@@ -78,7 +74,7 @@ public class Configuration {
      * Method - Gets the comLength
      * @return int
      */
-    public int getComlength() {return comLength;}
+    public int getComlength() {return comlength;}
 
     /**
      * Method - Gets the eventProbability

@@ -20,18 +20,24 @@ public class Grid {
     private int nextIdGenertor;
 
     /**
-     * Constructor        - Creates the grid with a config class
-     * @param config
+     * Constructor        - Creates the grid with a list of nodes
+     * @param listOfNodes
+     * @param PROBABILITYAGENT
+     * @param PROBABILITYEVENT
+     * @param COMLENGTH
+     * @param MAXJUMPSAGENT
+     * @param MAXJUMPSREQUEST
      */
-    public Grid(Configuration config){
-        this.listOfNodes = config.getNodes();
+    public Grid(ArrayList<Node> listOfNodes, double PROBABILITYAGENT,
+                double PROBABILITYEVENT, int COMLENGTH, int MAXJUMPSAGENT, int MAXJUMPSREQUEST){
+        this.listOfNodes = listOfNodes;
         this.listOfEvents = new ArrayList<>();
         this.fourRandomNodes = new ArrayList<>();
-        this.PROBABILITYAGENT = config.getAgentProbability();
-        this.PROBABILITYEVENT = config.getEventProbability();
-        this.COMLENGTH = config.getComlength();
-        this.MAXJUMPSAGENT = config.getMaxJumpsAgent();
-        this.MAXJUMPSREQUEST = config.getMaxJumpsRequest();
+        this.PROBABILITYAGENT = PROBABILITYAGENT;
+        this.PROBABILITYEVENT = PROBABILITYEVENT;
+        this.COMLENGTH = COMLENGTH;
+        this.MAXJUMPSAGENT = MAXJUMPSAGENT;
+        this.MAXJUMPSREQUEST = MAXJUMPSREQUEST;
         fixNeighbours();
         randomNodes = (ArrayList<Node>)listOfNodes.clone();
         Collections.shuffle(randomNodes);
