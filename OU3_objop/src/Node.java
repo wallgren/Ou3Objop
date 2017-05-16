@@ -6,7 +6,7 @@ import java.util.HashMap;
  */
 public class Node {
     private ArrayList<Node> neighbours;
-    private HashMap<Integer, ArrayList<Integer>> routingTable;
+    private HashMap<Integer, Guide> routingTable;
     private Position pos;
     private ArrayList<Message> messageQueue;
     private HashMap<Integer, Event> eventsHere;
@@ -29,60 +29,27 @@ public class Node {
      * Description: Compare two routingTables with each other, update with the shortest path to the event
      * @param agentRT : the routingTable to compare.
      */
-    public void compareTable(HashMap<Integer,ArrayList<Integer>> agentRT){
+    public void compareTable(HashMap<Integer, Guide> agentRT){
         for(int key: routingTable.keySet()){
             if(agentRT.containsKey(key)){
-                if(agentRT.get(key).get(0)<routingTable.get(key).get(0)){
-                    //If agent has a shorter path, update the routingTable in the node.
-                    int pathNr=agentRT.get(key).get(0);
-                    int pathDir=agentRT.get(key).get(1);
-                    routingTable.get(key).set(0,pathNr);
-                    routingTable.get(key).set(1,pathDir);
-                }
-                else if(routingTable.get(key).get(0)<agentRT.get(key).get(0)){
-                    //If node has a shorter path, update the routingTable in the agent.
-                    int pathNr=routingTable.get(key).get(0);
-                    int pathDir=routingTable.get(key).get(1);
-                    agentRT.get(key).set(0,routingTable.get(key).get(0));
-                    agentRT.get(key).set(1,routingTable.get(key).get(1));
-                }
+                if(agentRT.get(key).getSteps() < routingTable.get(key).getSteps())
+                    routingTable.get(key).setStepsAndDirection(agentRT.get(key).getSteps(), agentRT.get(key).getDirection());
+                else if(routingTable.get(key).getSteps() < agentRT.get(key).getSteps())
+                    agentRT.get(key).setStepsAndDirection(routingTable.get(key).getSteps(), routingTable.get(key).getDirection());
             }
-            else{
-                //If the node has an event the agent doesn't, add it.
-                int pathNr=routingTable.get(key).get(0);
-                int pathDir=routingTable.get(key).get(1);
-                ArrayList<Integer> newList=new ArrayList<>();
-                newList.add(pathNr);
-                newList.add(pathDir);
-                agentRT.put(key, newList);
-            }
+            else
+                agentRT.put(key, new Guide(routingTable.get(key).getSteps(), routingTable.get(key).getDirection()));
         }
         for(int key: agentRT.keySet()){
             if(routingTable.containsKey(key)){
-                if(agentRT.get(key).get(0)<routingTable.get(key).get(0)){
-                    //If agent has a shorter path, update the routingTable in the node.
-                    int pathNr=agentRT.get(key).get(0);
-                    int pathDir=agentRT.get(key).get(1);
-                    routingTable.get(key).set(0,pathNr);
-                    routingTable.get(key).set(1,pathDir);
-                }
-                else if(routingTable.get(key).get(0)<agentRT.get(key).get(0)){
-                    //If node has a shorter path, update the routingTable in the agent.
-                    int pathNr=routingTable.get(key).get(0);
-                    int pathDir=routingTable.get(key).get(1);
-                    agentRT.get(key).set(0,routingTable.get(key).get(0));
-                    agentRT.get(key).set(1,routingTable.get(key).get(1));
-                }
+                if(agentRT.get(key).getSteps() < routingTable.get(key).getSteps())
+                    routingTable.get(key).setStepsAndDirection(agentRT.get(key).getSteps(), agentRT.get(key).getDirection());
+
+                else if(routingTable.get(key).getSteps() < agentRT.get(key).getSteps())
+                    agentRT.get(key).setStepsAndDirection(routingTable.get(key).getSteps(), routingTable.get(key).getDirection());
             }
-            else{
-                //If the agent has an event the node doesn't, add it.
-                int pathNr=agentRT.get(key).get(0);
-                int pathDir=agentRT.get(key).get(1);
-                ArrayList<Integer> newList=new ArrayList<>();
-                newList.add(pathNr);
-                newList.add(pathDir);
-                routingTable.put(key, newList);
-            }
+            else
+                routingTable.put(key, new Guide(agentRT.get(key).getSteps(), agentRT.get(key).getDirection()));
         }
     }
 
@@ -92,10 +59,7 @@ public class Node {
      */
     public void addEvent(Event e){
         eventsHere.put(e.getId(),e);
-        ArrayList<Integer> a = new ArrayList<>();
-        a.add(0,0);
-        a.add(1,0);
-        routingTable.put(e.getId(),a);
+        routingTable.put(e.getId(), new Guide(0, 0));
     }
 
     /**
@@ -104,7 +68,7 @@ public class Node {
      * @return an arraylist with the info. index 0: The distance to event, index 1: the direction to event, described
      * as the position in this nodes neighbourList.
      */
-    public ArrayList<Integer> getEventInfo(int id){
+    public Guide getEventInfo(int id){
         return routingTable.get(id);
     }
 
