@@ -37,5 +37,23 @@ public class Guide {
         this.steps = steps;
         this.direction = direction;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Guide guide = (Guide) o;
+
+        if (steps != guide.steps) return false;
+        return direction == guide.direction;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = steps;
+        result = 31 * result + direction;
+        return result;
+    }
 }
 

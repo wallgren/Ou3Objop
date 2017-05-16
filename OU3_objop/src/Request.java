@@ -44,7 +44,7 @@ public class Request extends Message{
      * @return Node
      */
     @Override
-    public Node findNextNode(){
+    protected Node findNextNode(){
         if(message == null ){
             if(currNode.getEventInfo(eventId) != null){
                 directionNext = currNode.getEventInfo(eventId).getDirection();

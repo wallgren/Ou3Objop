@@ -25,7 +25,7 @@ public abstract class Message {
     public abstract void update();
 
     /** Abstract method that finds the next node to visit. */
-    public abstract Node findNextNode();
+    protected abstract Node findNextNode();
 
     /** Function that moves a message one step and adds the next ode to its path. */
     public void move(){
