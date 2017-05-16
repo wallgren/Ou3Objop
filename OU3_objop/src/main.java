@@ -29,6 +29,7 @@ public class main {
             if(i % 1000 == 0)
               System.out.println(i);
         }
+        System.out.printf("total time for compare table: %.6f \n", (double)g.getTotalTime()/Math.pow(10,9));
         long timeAfter = System.nanoTime();
         System.out.printf("Time: %.6f seconds.", (double)(timeAfter - timeBefore)/Math.pow(10, 9));
     }

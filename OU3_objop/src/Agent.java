@@ -6,7 +6,7 @@ import java.util.Random;
  * Created by oi12mnd on 2017-05-05.
  */
 public class Agent extends Message {
-    private HashMap<Integer, ArrayList<Integer>> routingTable = new HashMap<>();
+    private HashMap<Integer, Guide> routingTable = new HashMap<>();
 
     /** Sets the maximum number of jumps of an agent. Adds the starting node to visited nodes.
      * @param startNode The node where the agent is created.
@@ -56,8 +56,8 @@ public class Agent extends Message {
      */
     public void updateOwnTable(){
         for(int key: routingTable.keySet()){
-            routingTable.get(key).set(0,routingTable.get(key).get(0)+1);
-            routingTable.get(key).set(1, currNode.getNeighbours().indexOf(previousNode));
+            Guide guide = routingTable.get(key);
+            guide.setStepsAndDirection(guide.getSteps()+1, currNode.getNeighbours().indexOf(previousNode));
         }
     }
 

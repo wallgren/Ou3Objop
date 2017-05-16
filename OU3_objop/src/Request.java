@@ -49,7 +49,7 @@ public class Request extends Message{
         if(message == null ){
             if(currNode.getEventInfo(eventId) != null){
                 idFound = true;
-                directionNext = currNode.getEventInfo(eventId).get(1);
+                directionNext = currNode.getEventInfo(eventId).getDirection();
                 return currNode.getNeighbours().get(directionNext);
             } else
                 return currNode.getNeighbours().get(random.nextInt(currNode.getNeighbours().size()));

@@ -147,6 +147,10 @@ public class Grid extends JFrame{
         repaint();
     }
 
+    public long getTotalTime(){
+        return listOfNodes.get(listOfNodes.size()-1).getTotalTime();
+    }
+
 
     /**
      * Method  - Returns true if an Event is happening

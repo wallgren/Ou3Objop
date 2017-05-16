@@ -6,13 +6,14 @@ import java.util.HashMap;
  */
 public class Node {
     private ArrayList<Node> neighbours;
-    private HashMap<Integer, ArrayList<Integer>> routingTable;
+    private HashMap<Integer, Guide> routingTable;
     private Position pos;
     private ArrayList<Message> messageQueue;
     private HashMap<Integer, Event> eventsHere;
     private ArrayList<Integer> timeSinceRequests;
     private ArrayList<Request> currentRequests;
     private ArrayList<Boolean> sentTwice;
+    private static long totalTime;
 
     public Node(Position p){
         routingTable=new HashMap<>();
@@ -29,43 +30,48 @@ public class Node {
      * Description: Compare two routingTables with each other, update with the shortest path to the event
      * @param agentRT : the routingTable to compare.
      */
-    public void compareTable(HashMap<Integer,ArrayList<Integer>> agentRT){
+    public void compareTable(HashMap<Integer,Guide> agentRT){
+        long timeBefore = System.nanoTime();
         for(int key: routingTable.keySet()){
             if(agentRT.containsKey(key)){
-                if(agentRT.get(key).get(0)<routingTable.get(key).get(0)){
-                    //If agent has a shorter path, update the routingTable in the node.
-                    routingTable.put(key, (ArrayList<Integer>)agentRT.get(key).clone());
+                //If agent has a shorter path, update the routingTable in the node.
+                if(agentRT.get(key).getSteps()<routingTable.get(key).getSteps()) {
+                    Guide guide = routingTable.get(key);
+                    guide.setStepsAndDirection(agentRT.get(key).getSteps(), agentRT.get(key).getDirection());
                 }
-                else if(routingTable.get(key).get(0)<agentRT.get(key).get(0)){
-                    agentRT.put(key, (ArrayList<Integer>)routingTable.get(key).clone());
+                else if(routingTable.get(key).getSteps()<agentRT.get(key).getSteps()){
+                    Guide guide = agentRT.get(key);
+                    guide.setStepsAndDirection(routingTable.get(key).getSteps(), routingTable.get(key).getDirection());
                 }
             }
             else{
                 //If the node has an event the agent doesn't, add it.
-                ArrayList<Integer> newList = new ArrayList<>();
-                newList.add(routingTable.get(key).get(0));
-                newList.add(routingTable.get(key).get(1));
-                agentRT.put(key, newList);
+                agentRT.put(key, new Guide(routingTable.get(key).getSteps(), routingTable.get(key).getDirection()));
             }
         }
         for(int key: agentRT.keySet()){
             if(routingTable.containsKey(key)){
-                if(agentRT.get(key).get(0)<routingTable.get(key).get(0)){
-                    routingTable.put(key, (ArrayList<Integer>)agentRT.get(key).clone());
+                if(agentRT.get(key).getSteps()<routingTable.get(key).getSteps()){
+                    Guide guide = routingTable.get(key);
+                    guide.setStepsAndDirection(agentRT.get(key).getSteps(), agentRT.get(key).getDirection());
+                }
 
+
+                else if(routingTable.get(key).getSteps()<agentRT.get(key).getSteps()){
+                    Guide guide = agentRT.get(key);
+                    guide.setStepsAndDirection(routingTable.get(key).getSteps(), routingTable.get(key).getDirection());
                 }
-                else if(routingTable.get(key).get(0)<agentRT.get(key).get(0)){
-                    agentRT.put(key, (ArrayList<Integer>)routingTable.get(key).clone());
-                }
+
             }
             else{
-                ArrayList<Integer> newList = new ArrayList<>();
-                newList.add(agentRT.get(key).get(0));
-                newList.add(agentRT.get(key).get(1));
-                routingTable.put(key, newList);
+                routingTable.put(key, new Guide(agentRT.get(key).getSteps(), agentRT.get(key).getDirection()));
             }
         }
+        long timeAfter = System.nanoTime();
+        totalTime += timeAfter - timeBefore;
     }
+
+    public long getTotalTime(){return totalTime;}
 
     /**
      * Description: Adds an event to this node as a new event, both in routingTable and in eventsHere-list
@@ -73,10 +79,7 @@ public class Node {
      */
     public void addEvent(Event e){
         eventsHere.put(e.getId(),e);
-        ArrayList<Integer> a = new ArrayList<>();
-        a.add(0,0);
-        a.add(1,0);
-        routingTable.put(e.getId(),a);
+        routingTable.put(e.getId(), new Guide(0, 0));
     }
 
     /**
@@ -85,7 +88,7 @@ public class Node {
      * @return an arraylist with the info. index 0: The distance to event, index 1: the direction to event, described
      * as the position in this nodes neighbourList.
      */
-    public ArrayList<Integer> getEventInfo(int id){
+    public Guide getEventInfo(int id){
         return routingTable.get(id);
     }
 
