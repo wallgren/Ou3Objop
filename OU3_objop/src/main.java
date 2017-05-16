@@ -11,8 +11,14 @@ public class main {
                 nodes.add(new Node(new Position(j,i)));
             }
         }
-
-        Grid g = new Grid(nodes, 0.5, 0.0001, 15, 50, 45);
+        Configuration config = new Configuration();
+        config.setNodes(nodes);
+        config.setAgentProbability(0.5);
+        config.setEventProbability(0.0001);
+        config.setComlength(15);
+        config.setMaxJumpsAgent(50);
+        config.setMaxJumpsRequest(45);
+        Grid g = new Grid(config);
 
         for (int i = 0; i < 10000; i++) {
             g.updateNodes();
