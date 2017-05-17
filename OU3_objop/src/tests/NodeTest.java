@@ -97,7 +97,7 @@ public class NodeTest {
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(out));
         a.update();
-        assertEquals(out.toString(), "simulation.Position: (0, 10) time: 1 event id: 1\n");
+        assertEquals(out.toString(), "Position: (0, 10) time: 1 event id: 1\n");
         assertTrue(r.hasReturned());
     }
 

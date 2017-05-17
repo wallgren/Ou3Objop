@@ -11,19 +11,11 @@ import java.util.ArrayList;
  * Created by oi12mnd on 2017-05-16.
  */
 public class RequestTest {
-
     @Test
     public void justCreatedRequestShouldNotBeMarkedAsReturned(){
         Request r=new Request(new Node(new Position(0,0)), 1, 10);
         assertFalse(r.hasReturned());
     }
 
-    @Test
-    public void shouldReturn(){
-        Node a=new Node(new Position(0,0));
-        Node b=new Node(new Position(0,0));
-        Node c=new Node(new Position(0,0));
-    }
-
-
 }
+

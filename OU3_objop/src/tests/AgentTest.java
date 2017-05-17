@@ -36,6 +36,7 @@ public class AgentTest {
             assertEquals(n2.numberOfElementsInMessageQueue(), 1);
         }
     }
+
     @Test
     public void canCompareTable(){
         Node n1= new Node(new Position(0,0));
