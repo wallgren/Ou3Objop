@@ -120,6 +120,11 @@ public class Grid {
                 }
             }
         }
+        for(Node n:listOfNodes){
+            if(n.getNeighbours().isEmpty())
+                throw new IllegalStateException("Node on position" + n.getPos().getX()+","+n.getPos().getY()+" has " +
+                        "no neighbours");
+        }
     }
 
     /**
