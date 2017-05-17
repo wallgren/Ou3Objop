@@ -114,7 +114,7 @@ public class Grid {
                 if (i != j) {
                     int xlength = node.getPos().getX() - compareNode.getPos().getX();
                     int ylength = node.getPos().getY() - compareNode.getPos().getY();
-                    if (Math.sqrt(Math.pow(xlength, 2) + Math.pow(ylength, 2)) <= 15) {
+                    if (Math.sqrt(Math.pow(xlength, 2) + Math.pow(ylength, 2)) <= COMLENGTH) {
                         node.addNeighbour(compareNode);
                     }
                 }
@@ -126,4 +126,5 @@ public class Grid {
      * Method - Increments the timeStep
      */
     public void timeStepIncrement(){ timeStep++; }
+
 }
