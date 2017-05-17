@@ -1,7 +1,8 @@
 package simulation;
 
 /**
- * Created by c16gwn on 2017-05-05
+ * Class - Position class to define positions in the grid.
+ * Created by grupp 8 on 2017-05-05
  */
 public class Position {
     private int x;
@@ -13,24 +14,24 @@ public class Position {
     }
 
     /**
-     * Description: returns the x-value of the position
-     * @return attribute x
+     * Description: Returns the x-value of the position.
+     * @return x-coordinate.
      */
     public int getX(){
         return x;
     }
     /**
-     * Description: returns the y-value of the position
-     * @return attribute y
+     * Description: Returns the y-value of the position.
+     * @return y-coordinate.
      */
     public int getY(){
         return y;
     }
 
     /**
-     * Description: sets the x and y of the position to the requested values
-     * @param x : the x-value requested
-     * @param y : the y-value requested
+     * Description: Sets the x and y of the position to the requested values.
+     * @param x : The x-value requested.
+     * @param y : The y-value requested.
      */
     public void setPos(int x, int y){
         this.x=x;
@@ -38,9 +39,9 @@ public class Position {
     }
 
     /**
-     * Method   - Compares two positions if they're equal
-     * @param o
-     * @return
+     * Method   - Compares two positions if they're equal.
+     * @param o: Is the object to Compare.
+     * @return boolean: True if the objects are equal, false otherwise.
      */
     @Override
     public boolean equals(Object o) {
@@ -54,8 +55,8 @@ public class Position {
     }
 
     /**
-     * Method  - returns the hashCode for a position
-     * @return
+     * Method  - Returns the hashCode for a position.
+     * @return The hascode for a position.
      */
     @Override
     public int hashCode() {

@@ -1,8 +1,8 @@
 package simulation;
 
 /**
- * Class that handles the information about an event.
- * Created by oi12mnd on 2017-05-05.
+ * Class - Event class that handles the information about an event.
+ * Created by grupp 8 on 2017-05-05.
  */
 
 public class Event {

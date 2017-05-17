@@ -1,17 +1,17 @@
 package simulation;
 
 /**
- * Created by Max Holmberg on 2017-05-16.
- * Class - A class to represent steps and direction in the RoutingTable
+ * Class - A class to represent steps and direction in the RoutingTable.
+ * Created by grupp 8 on 2017-05-16.
  */
 public class Guide {
     private int steps;
     private int direction;
 
     /**
-     * Constructor - Creates a Guide class with given steps and direction
-     * @param steps
-     * @param direction
+     * Constructor - Creates a Guide class with given steps and direction.
+     * @param steps: Number of steps to an event.
+     * @param direction: The direction to an event.
      */
     public Guide(int steps, int direction){
         this.steps = steps;
@@ -19,21 +19,21 @@ public class Guide {
     }
 
     /**
-     * Method - Getter to get the steps
-     * @return int
+     * Method - Getter to get the steps.
+     * @return int: The amount of steps.
      */
     public int getSteps(){return steps;}
 
     /**
-     * Method - Getter to get the direction
-     * @return int
+     * Method - Getter to get the direction.
+     * @return int: The direction represented as an integer.
      */
     public int getDirection(){return direction;}
 
     /**
-     * Method - Sets the steps and direction
-     * @param steps
-     * @param direction
+     * Method - Sets the steps and direction.
+     * @param steps: Number of steps to an event.
+     * @param direction: The direction to an event.
      */
     public void setStepsAndDirection(int steps, int direction){
         this.steps = steps;
@@ -41,9 +41,9 @@ public class Guide {
     }
 
     /**
-     * Method - Checks if two Guides is equal to each other
-     * @param o
-     * @return boolean
+     * Method - Checks if two Guides are equal to each other.
+     * @param o: Object to compare.
+     * @return boolean: True if objects are equivalent, false otherwise.
      */
     @Override
     public boolean equals(Object o) {
@@ -57,8 +57,8 @@ public class Guide {
     }
 
     /**
-     * Method - Returns a hashCode for a Guide
-     * @return int
+     * Method - Returns a hashCode for a Guide.
+     * @return int: The hashcode for a guide.
      */
     @Override
     public int hashCode() {

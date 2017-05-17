@@ -3,7 +3,7 @@ package simulation;
 import java.util.ArrayList;
 
 /**
- * Created by dv16mhg on 2017-05-09.
+ * Created by grupp 8 on 2017-05-09.
  * Minimal working example of the simulation
  */
 public class main {

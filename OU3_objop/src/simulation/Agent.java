@@ -1,26 +1,25 @@
 package simulation;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by oi12mnd on 2017-05-05.
+ * Class - Agent class that simulates an agent message.
+ * Created by grupp 8 on 2017-05-05.
  */
 public class Agent extends Message {
     private HashMap<Integer, Guide> routingTable = new HashMap<>();
 
     /** Sets the maximum number of jumps of an agent. Adds the starting node to visited nodes.
      * @param startNode The node where the agent is created.
-     * @param MAXJUMPS The number of */
+     * @param MAXJUMPS The maximum number of jumps that an agent can perform. */
     public Agent(Node startNode, int MAXJUMPS){
         super(startNode,MAXJUMPS);
     }
 
     /**
-     * Method - Returns the nodes that the agent can walk to
+     * Returns the nodes that the agent can walk to.
      * @return ArrayList<Node>
      */
-    /* Check which nodes are valid moves */
     private ArrayList<Node> getMovableNeighbours() {
         ArrayList<Node> movableNeighbours = new ArrayList<>();
         for (Node node : currNode.getNeighbours()) {
@@ -76,7 +75,7 @@ public class Agent extends Message {
 
     /**
      * Returns the current node. To be used only for testing purposes.
-     * @return currNode, the current node
+     * @return currNode, the current node.
      */
     public Node getCurrNodeForTesting(){
         return currNode;

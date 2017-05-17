@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
+ * Class - Node class that represents the nodes in the network.
+ * Created by grupp 8 on 2017-05-05.
  */
 public class Node {
     private ArrayList<Node> neighbours;
@@ -16,6 +17,10 @@ public class Node {
     private ArrayList<Request> currentRequests;
     private ArrayList<Boolean> sentTwice;
 
+    /**
+     * Description: Creates a node at a given position.
+     * @param p: Is the position.
+     */
     public Node(Position p){
         routingTable=new HashMap<>();
         neighbours=new ArrayList<>();
@@ -28,7 +33,7 @@ public class Node {
     }
 
     /**
-     * Description: Compare two routingTables with each other, update with the shortest path to the event
+     * Description: Compare two routingTables with each other, update with the shortest path to the event.
      * @param agentRT : the routingTable to compare.
      */
     public void compareTable(HashMap<Integer, Guide> agentRT){
@@ -56,8 +61,8 @@ public class Node {
     }
 
     /**
-     * Description: Adds an event to this node as a new event, both in routingTable and in eventsHere-list
-     * @param e : the event to add
+     * Description: Adds an event to this node as a new event, both in routingTable and in eventsHere-list.
+     * @param e : The event to add.
      */
     public void addEvent(Event e){
         eventsHere.put(e.getId(),e);
@@ -66,8 +71,8 @@ public class Node {
 
     /**
      * Description: Returns the informaiton associated with an event-id in the routingTable.
-     * @param id : the id we want info about
-     * @return an arraylist with the info. index 0: The distance to event, index 1: the direction to event, described
+     * @param id : The id we want info about.
+     * @return An arraylist with the info. index 0: The distance to event, index 1: the direction to event, described
      * as the position in this nodes neighbourList.
      */
     public Guide getEventInfo(int id){
@@ -75,24 +80,24 @@ public class Node {
     }
 
     /**
-     * Description: Returns the position of the node
-     * @return the position
+     * Description: Returns the position of the node.
+     * @return The position.
      */
     public Position getPos(){
         return pos;
     }
 
     /**
-     * Description: Adds node to the nodes list of neighbours
-     * @param neigh: the node to add as neighbour
+     * Description: Adds node to the nodes list of neighbours.
+     * @param neigh: The node to add as neighbour.
      */
     public void addNeighbour(Node neigh){
         neighbours.add(neigh);
     }
 
     /**
-     * Description: returns the list of neighbours
-     * @return the list of neighbours
+     * Description: Returns the list of neighbours.
+     * @return The list of neighbours.
      */
     public ArrayList<Node> getNeighbours(){
         return neighbours;
@@ -101,9 +106,9 @@ public class Node {
     /**
      * Description: Creates a request from this node, with a destination "id". This method is called from grid.
      * Returns the request so grid can keep track of all requests.
-     * @param id : the id of the event the request tracks
-     * @param MAXJUMPS : the maximum amount of jumps a request is allowed to take.
-     * @return : the request created
+     * @param id : The id of the event the request tracks.
+     * @param MAXJUMPS : The maximum amount of jumps a request is allowed to take.
+     * @return : The request created.
      */
     public Request createRequest(int id, int MAXJUMPS) throws IllegalStateException{
         Request r = new Request(this, id,MAXJUMPS);
@@ -115,15 +120,15 @@ public class Node {
     }
 
     /**
-     * Description: remove the first element from the messageQueue
+     * Description: Remove the first element from the messageQueue.
      */
     public void removeFirstElement(){
         messageQueue.remove(0);
     }
 
     /**
-     * Description: adds a message to the messageQueue
-     * @param m : the message to add.
+     * Description: Adds a message to the messageQueue.
+     * @param m : The message to add.
      */
     public void addMessageToQueue(Message m){
         messageQueue.add(m);
@@ -159,8 +164,8 @@ public class Node {
     /**
      * Description: This method checks if a specific event has occured on this node. If it has, it returns the time
      * of the event, if it hasn't, it returns null.
-     * @param id: The if of the event to look for
-     * @return null if event hasn't happened here, the time of the event if it has.
+     * @param id: The if of the event to look for.
+     * @return Null if event hasn't happened here, the time of the event if it has.
      */
     public Integer returnTimeIfEventExists(int id){
         if(eventsHere.containsKey(id))
@@ -196,12 +201,16 @@ public class Node {
         }
     }
 
+    /**
+     * Description: Gets the number of elements in the messageQueue.
+     * @return int: The number of elements.
+     */
     public int numberOfElementsInMessageQueue(){
         return messageQueue.size();
     }
 
     /**
-     *Description: Updates messages in the queue of this node and the request started from this node if such exists.
+     * Description: Updates messages in the queue of this node and the request started from this node if such exists.
      */
     public void update(){
         moveMessage();

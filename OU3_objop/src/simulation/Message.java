@@ -1,6 +1,6 @@
 package simulation; /**
- * This class represents a message (Request or Agent) that is created on the grid.
- * Created by oi12mnd on 2017-05-09.
+ * Class - Message class that represents a message (Request or Agent) that is created on the grid.
+ * Created by grupp 8 on 2017-05-09.
  */
 import java.util.Stack;
 import java.util.Random;
@@ -43,6 +43,10 @@ public abstract class Message {
             path.push(currNode);
     }
 
+    /**
+     * Method - Checks if next node is busy.
+     * @return True if the next node is busy, false otherwise.
+     */
     public boolean nextNodeIsBusy(){ return nextNode.numberOfElementsInMessageQueue() != 0; }
 }
 

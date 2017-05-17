@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
- * Class - simulation.Grid represents the network with all the nodes in it
+ * Class - Grid class that represents the network with all the nodes in it.
+ * Created by grupp 8 on 2017-05-05.
  */
 public class Grid {
     private int timeStep;
@@ -23,9 +24,9 @@ public class Grid {
     private int nextIdGenertor;
 
     /**
-     * Constructor        - Creates the grid with a config class
-     * @param config
-     * @throws IllegalStateException
+     * Constructor - Creates the grid with a config class.
+     * @param config is the configuration of the system.
+     * @throws IllegalStateException if timeEachRequestIsSent is zero.
      */
     public Grid(Configuration config) throws IllegalStateException{
         this.listOfNodes = config.getNodes();
@@ -50,10 +51,8 @@ public class Grid {
 
     /**
      * Method - This method is called everytime a time tick is represented,
-     *          the method spawns events and agents on a given probability,
-     *          every 400 time step four Requests is sent out in the network
-     *          from four random nodes
-     *
+     *          the method spawns events and agents on a given probability.
+     *          The method also spawns requests at given times according to the variable timeEachRequestIsSent.
      */
     public void eventHappening() {
         timeStepIncrement();
@@ -71,9 +70,9 @@ public class Grid {
             }
         }
         /**
-         * If timeStep is on 400, 800, 1200...
+         * If timeStep is on n*timeEachRequestIsSent for any given n
          * it should send out four Requests from four random
-         * nodes in the network
+         * nodes in the network.
          */
         if(timeStep % timeEachRequestIsSent == 0){
             int eventId;
@@ -87,7 +86,7 @@ public class Grid {
     }
 
     /**
-     * Method - Updates all the nodes
+     * Method - Updates all the nodes.
      */
     public void updateNodes(){
         for(Node node : listOfNodes)
@@ -95,24 +94,24 @@ public class Grid {
     }
 
     /**
-     * Method  - Returns true if an Event is happening
-     * @return boolean
+     * Method  - Checks if an event is happening.
+     * @return boolean Returns true if an Event is happening, false otherwise.
      */
     private boolean detectEvent(){
         return randomGen.nextDouble()<= PROBABILITYEVENT;
     }
 
     /**
-     * Method  - Returns true if an Agent is sent
-     * @return boolean
+     * Method  - Checks if an agent will be sent.
+     * @return boolean Returns true if an Agent is sent, false otherwise.
      */
     private boolean detectAgent(){
         return randomGen.nextDouble() <= PROBABILITYAGENT;
     }
 
     /**
-     * Method - Sets the neighbours for each Node in the Grid
-     * @throws IllegalStateException
+     * Method - Sets the neighbours for each Node in the Grid.
+     * @throws IllegalStateException if any node does not have any neighbours.
      */
     private void fixNeighbours() throws IllegalStateException{
         for (int i = 0; i < listOfNodes.size(); i++) {
@@ -136,7 +135,7 @@ public class Grid {
     }
 
     /**
-     * Method - Increments the timeStep
+     * Method - Increments the timeStep.
      */
     public void timeStepIncrement(){ timeStep++; }
 
