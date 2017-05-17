@@ -1,5 +1,4 @@
 package tests;
-
 import simulation.*;
 import org.junit.Test;
 
@@ -8,20 +7,30 @@ import java.util.HashMap;
 import static junit.framework.TestCase.*;
 
 /**
- * Created by c16gwn on 2017-05-15.
+ * Test - Junit test that makes sure that the Node class works as intended
+ * Created by grupp 8 on 2017-05-05.
  */
 public class NodeTest {
 
+    /**
+     * Makes sure a node can be created
+     */
     @Test
     public void canCreateNode(){
         new Node(new Position(0,0));
     }
 
+    /**
+     * makes sure a created node is on its expecte position
+     */
     @Test
     public void shouldHaveExpectedPos(){
         assertTrue((new Node(new Position(10,10))).getPos().equals(new Position(10,10)));
     }
 
+    /**
+     * makes sure the method addEvent adds an event, and makes sure its reachable by requests
+     */
     @Test
     public void addEventShouldAddEvent(){
         Node a= new Node(new Position(0,0));
@@ -30,6 +39,9 @@ public class NodeTest {
         assertEquals(i, 10);
     }
 
+    /**
+     * makes sure nodes handles neighbours correctly
+     */
     @Test
     public void canHandleNeighbours(){
         Node a = new Node(new Position(0,0));
@@ -46,18 +58,19 @@ public class NodeTest {
         assertEquals(a.getNeighbours().get(1), c);
     }
 
-    @Test
-    public void canCreateRequest(){
-        Node a= new Node(new Position(0,0));
-        a.createRequest(1, 10);
-    }
-
+    /**
+     * makes sure a node can create a request that is reachable and working.
+     * Requires that Request has a working constructor
+     */
     @Test
     public void createRequestCreatesRequest(){
         Request r=(new Node(new Position(0,0))).createRequest(1, 10);
         assertEquals(r.getEventId(), 1);
     }
 
+    /**
+     * Makes sure that the update method works as intended, using a request
+     */
     @Test
     public void updateUpdatesNodeCorrectly(){
         Node a= new Node(new Position(0,0));
@@ -79,6 +92,9 @@ public class NodeTest {
         assertEquals(b.numberOfElementsInMessageQueue(), 0);
     }
 
+    /**
+     * Makes sure requests, nodes and agents works together in a correct manner
+     */
     @Test
     public void requestsCanDoTheirJob() {
         Node a = new Node(new Position (0, 0));
@@ -101,7 +117,10 @@ public class NodeTest {
         assertTrue(r.hasReturned());
     }
 
-
+    /**
+     * Makes sure that compareTable method works by creating a node, a routingTable, comparing them
+     * editing them, then comparing them again
+     */
     @Test
     public void shouldUpdateTableCorrectly(){
         HashMap<Integer, Guide> routingTable=new HashMap<>();
@@ -127,6 +146,9 @@ public class NodeTest {
         assertTrue(routingTable.get(4).equals(new Guide(5,2)));
     }
 
+    /**
+     * Makes sure the messageQueues works as intended
+     */
     @Test
     public void sendingTwoRequestsToSameNodeShouldPutOneInQueue(){
         Node a=new Node(new Position(0,0));
@@ -158,9 +180,4 @@ public class NodeTest {
         assertEquals(d.numberOfElementsInMessageQueue(), 1);
         assertEquals(b.numberOfElementsInMessageQueue(), 2);
     }
-
-
-
-
-
 }

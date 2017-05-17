@@ -1,7 +1,4 @@
-package tests; /**
- * Created by dv16mhg on 2017-05-17.
- */
-
+package tests;
 import simulation.Configuration;
 import simulation.Grid;
 import simulation.Node;
@@ -13,6 +10,11 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+
+/**
+ * Test - Junit test that makes sure that the Grid class works as intended
+ * Created by grupp 8 on 2017-05-05.
+ */
 public class GridTest {
 
     private Configuration config;

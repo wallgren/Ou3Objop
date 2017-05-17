@@ -1,18 +1,25 @@
 package tests;
-
 import simulation.Position;
 import org.junit.Test;
 
 import static junit.framework.TestCase.*;
 
 /**
- * Created by c16gwn on 2017-05-15.
+ * Test - Junit test that makes sure that the Agent class works as intended
+ * Created by grupp 8 on 2017-05-15.
  */
 public class PositionTest {
+    /**
+     * Makes sure a Position cna be created
+     */
     @Test
     public void canCreatePosition(){
         new Position(0,0);
     }
+
+    /**
+     * Tests that position can handle negative coordinates, as this is a very important feature in our system.
+     */
     @Test
     public void shouldBeAbleToCreatePositionWithNegativeXY(){
         new Position(-1,-2);
@@ -20,6 +27,9 @@ public class PositionTest {
         new Position(5,-3);
     }
 
+    /**
+     * Makes sure getX and getY works
+     */
     @Test
     public void getXYReturnsCorrect(){
         Position a = new Position(13,57);
@@ -27,6 +37,9 @@ public class PositionTest {
         assertEquals("simulation.Position.getY returns incorrect value",a.getY(), 57);
     }
 
+    /**
+     * makes sure setting a position sets the position correctly
+     */
     @Test
     public void setPosSetsPosition(){
         Position p=new Position(0,0);
@@ -35,6 +48,9 @@ public class PositionTest {
         assertEquals("simulation.Position.setPos sets incorrect Y", p.getY(), 20);
     }
 
+    /**
+     * Makes sure equal works
+     */
     @Test
     public void equalPositionsShouldMarkAsEqual(){
         Position p1=new Position(5,13);
@@ -50,6 +66,9 @@ public class PositionTest {
         assertTrue(p1.equals(p3));
     }
 
+    /**
+     * makes sure equal works
+     */
     @Test
     public void unequalPositionsShouldMarkAsUnequal(){
         Position p1=new Position(5,13);

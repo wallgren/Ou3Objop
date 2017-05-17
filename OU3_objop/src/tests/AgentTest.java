@@ -1,20 +1,26 @@
 package tests;
-
 import simulation.*;
 import org.junit.Test;
 import static junit.framework.TestCase.*;
 
 
 /**
- * Created by c16gwn on 2017-05-15.
+ * Test - Junit test that makes sure that the Agent class works as intended
+ * Created by grupp 8 on 2017-05-05.
  */
 public class AgentTest {
 
+    /**
+     * Tests that an Agent can be created
+     */
     @Test
     public void canCreateAgent(){
         new Agent(new Node(new Position(0,0)),50);
     }
 
+    /**
+     * Tests that an agent can move
+     */
     @Test
     public void agentCanMove(){
         Node n1= new Node(new Position(0,0));
@@ -37,6 +43,9 @@ public class AgentTest {
         }
     }
 
+    /**
+     * Tests that agent can compare its table correctly with a node
+     */
     @Test
     public void canCompareTable(){
         Node n1= new Node(new Position(0,0));
@@ -54,6 +63,9 @@ public class AgentTest {
         assertEquals(n2.getEventInfo(1), new Guide(1, 0));
     }
 
+    /**
+     * Makes sure a moving agent prioritize nodes it hasn't visited
+     */
     @Test
     public void shouldPrioritizeNonVisitedNodes(){
         //To eliminate, as much as possible, the dependency of random we run the test many times.
@@ -83,6 +95,9 @@ public class AgentTest {
         }
     }
 
+    /**
+     * makes sure the attribute currNode changes accordingly. Very important.
+     */
     @Test
     public void currNodeShouldChange(){
         Node n1=new Node(new Position(0,0));

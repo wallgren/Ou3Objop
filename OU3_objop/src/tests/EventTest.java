@@ -4,9 +4,12 @@ import simulation.Event;
 import simulation.Position;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+
+
 /**
- * This is a test class for simulation.Event.
- * Created by oi12mnd on 2017-05-12.
+ * Test - Junit test that makes sure that the Event class works as intended
+ * Created by grupp 8 on 2017-05-05.
  */
 public class EventTest {
 
