@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d561e1b3-dc45-41b0-9cc2-f8c13d9ba789" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OU3_objop/src/simulation/Agent.java" afterPath="$PROJECT_DIR$/OU3_objop/src/simulation/Agent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OU3_objop/src/simulation/Configuration.java" afterPath="$PROJECT_DIR$/OU3_objop/src/simulation/Configuration.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OU3_objop/src/simulation/Event.java" afterPath="$PROJECT_DIR$/OU3_objop/src/simulation/Event.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OU3_objop/src/simulation/Grid.java" afterPath="$PROJECT_DIR$/OU3_objop/src/simulation/Grid.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OU3_objop/src/simulation/Guide.java" afterPath="$PROJECT_DIR$/OU3_objop/src/simulation/Guide.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OU3_objop/src/simulation/Message.java" afterPath="$PROJECT_DIR$/OU3_objop/src/simulation/Message.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OU3_objop/src/simulation/Node.java" afterPath="$PROJECT_DIR$/OU3_objop/src/simulation/Node.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OU3_objop/src/simulation/Position.java" afterPath="$PROJECT_DIR$/OU3_objop/src/simulation/Position.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OU3_objop/src/simulation/Request.java" afterPath="$PROJECT_DIR$/OU3_objop/src/simulation/Request.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OU3_objop/src/simulation/main.java" afterPath="$PROJECT_DIR$/OU3_objop/src/simulation/main.java" />
-    </list>
+    <list default="true" id="d561e1b3-dc45-41b0-9cc2-f8c13d9ba789" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,10 +32,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Configuration.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Configuration.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/OU3_objop/src/simulation/Configuration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1080">
+            <state relative-caret-position="1944">
               <caret line="110" column="47" lean-forward="false" selection-start-line="110" selection-start-column="47" selection-end-line="110" selection-end-column="47" />
               <folding />
             </state>
@@ -64,11 +52,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Grid.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Grid.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/OU3_objop/src/simulation/Grid.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1296">
-              <caret line="72" column="68" lean-forward="false" selection-start-line="72" selection-start-column="68" selection-end-line="72" selection-end-column="68" />
+            <state relative-caret-position="486">
+              <caret line="27" column="56" lean-forward="true" selection-start-line="27" selection-start-column="56" selection-end-line="27" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -168,8 +156,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="979" />
-    <option name="y" value="30" />
+    <option name="x" value="692" />
+    <option name="y" value="145" />
     <option name="width" value="1574" />
     <option name="height" value="1263" />
   </component>
@@ -494,7 +482,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="979" y="30" width="1574" height="1263" extended-state="0" />
+    <frame x="692" y="145" width="1574" height="1263" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -796,6 +784,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/OU3_objop/src/simulation/Event.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="23" lean-forward="false" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/OU3_objop/src/simulation/Grid.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="27" column="56" lean-forward="true" selection-start-line="27" selection-start-column="56" selection-end-line="27" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/OU3_objop/src/simulation/Agent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1350">
@@ -810,27 +816,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/OU3_objop/src/simulation/Configuration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
+        <state relative-caret-position="1944">
           <caret line="110" column="47" lean-forward="false" selection-start-line="110" selection-start-column="47" selection-end-line="110" selection-end-column="47" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OU3_objop/src/simulation/Event.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="23" lean-forward="false" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/OU3_objop/src/simulation/Grid.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1296">
-          <caret line="72" column="68" lean-forward="false" selection-start-line="72" selection-start-column="68" selection-end-line="72" selection-end-column="68" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
