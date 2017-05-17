@@ -38,6 +38,7 @@ public class AgentTest {
         Node n1= new Node(new Position(0,0));
         Node n2= new Node(new Position(0,10));
         n1.addNeighbour(n2);
+        n2.addNeighbour(n1);
 
         n1.addEvent(new Event(n1.getPos(), 1,1));
 
@@ -45,9 +46,50 @@ public class AgentTest {
         n1.addMessageToQueue(a);
         n1.update();
         assertEquals(n1.getEventInfo(1), new Guide(0, 0));
-
-
-
-
+        n2.update();
+        assertEquals(n2.getEventInfo(1), new Guide(1, 0));
     }
+
+    @Test
+    public void shouldPrioritizeNonVisitedNodes(){
+        //To eliminate, as much as possible, the dependency of random we run the test many times.
+        for(int i=0; i<1000; i++) {
+            Node n1 = new Node(new Position(0, 0));
+            Node n2 = new Node(new Position(0, 0));
+            Node n3 = new Node(new Position(0, 0));
+            Node n4 = new Node(new Position(0, 0));
+            Node n5 = new Node(new Position(0, 0));
+
+            n1.addNeighbour(n2);
+            n2.addNeighbour(n3);
+            n3.addNeighbour(n4);
+
+            n4.addNeighbour(n1);
+            n4.addNeighbour(n2);
+            n4.addNeighbour(n3);
+            n4.addNeighbour(n5);
+
+            n1.addMessageToQueue(new Agent(n1, 10));
+            n1.update();
+            n2.update();
+            n3.update();
+            n4.update();
+
+            assertEquals(n5.numberOfElementsInMessageQueue(), 1);
+        }
+    }
+
+    @Test
+    public void currNodeShouldChange(){
+        Node n1=new Node(new Position(0,0));
+        Node n2=new Node(new Position(0,0));
+        n1.addNeighbour(n2);
+        Agent a = new Agent(n1, 10);
+        n1.addMessageToQueue(a);
+
+        assertEquals(a.getCurrNodeForTesting(),n1);
+        n1.update();
+        assertEquals(a.getCurrNodeForTesting(), n2);
+    }
+
 }
