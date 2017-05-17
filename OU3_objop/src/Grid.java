@@ -114,11 +114,16 @@ public class Grid {
                 if (i != j) {
                     int xlength = node.getPos().getX() - compareNode.getPos().getX();
                     int ylength = node.getPos().getY() - compareNode.getPos().getY();
-                    if (Math.sqrt(Math.pow(xlength, 2) + Math.pow(ylength, 2)) <= 15) {
+                    if (Math.sqrt(Math.pow(xlength, 2) + Math.pow(ylength, 2)) <= COMLENGTH) {
                         node.addNeighbour(compareNode);
                     }
                 }
             }
+        }
+        for(Node n:listOfNodes){
+            if(n.getNeighbours().isEmpty())
+                throw new IllegalStateException("Node on position" + n.getPos().getX()+","+n.getPos().getY()+" has " +
+                        "no neighbours");
         }
     }
 

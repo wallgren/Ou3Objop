@@ -154,9 +154,9 @@ public class NodeTest {
         b.update();
         assertEquals(d.numberOfElementsInMessageQueue(), 1);
         assertEquals(b.numberOfElementsInMessageQueue(), 2);
-
-
     }
+
+
 
 
 
