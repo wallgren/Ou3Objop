@@ -86,7 +86,7 @@ public class GridTest {
         for (int i = 0; i < 401; i++) {
             grid.eventHappening();
             grid.updateNodes();
-            if(i == 400){
+            if(i == config.getTimeEachRequestsIsSent()){
                 for(Node node : nodes){
                     try{
                         node.removeFirstElement();
