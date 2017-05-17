@@ -15,7 +15,7 @@ public class main {
         config.setNodes(nodes);
         config.setAgentProbability(0.5);
         config.setEventProbability(0.0001);
-        config.setComlength(5);
+        config.setComlength(15);
         config.setMaxJumpsAgent(50);
         config.setMaxJumpsRequest(45);
         Grid g = new Grid(config);

@@ -72,4 +72,15 @@ public class Agent extends Message {
         }
         return nextNode;
     }
+
+    /**
+     * Returns the current node. To be used only for testing purposes.
+     * @return currNode, the current node
+     */
+    public Node getCurrNodeForTesting(){
+        return currNode;
+    }
+
 }
+
+
