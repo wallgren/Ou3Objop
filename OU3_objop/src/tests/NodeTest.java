@@ -25,11 +25,13 @@ public class NodeTest {
      */
     @Test
     public void shouldHaveExpectedPos(){
-        assertTrue((new Node(new Position(10,10))).getPos().equals(new Position(10,10)));
+        assertTrue((new Node(new Position(10,10))).
+                getPos().equals(new Position(10,10)));
     }
 
     /**
-     * makes sure the method addEvent adds an event, and makes sure its reachable by requests
+     * makes sure the method addEvent adds an event,
+     * and makes sure its reachable by requests
      */
     @Test
     public void addEventShouldAddEvent(){
@@ -64,7 +66,8 @@ public class NodeTest {
      */
     @Test
     public void createRequestCreatesRequest(){
-        Request r=(new Node(new Position(0,0))).createRequest(1, 10);
+        Request r=(new Node(new Position(0,0))).createRequest(1,
+                10);
         assertEquals(r.getEventId(), 1);
     }
 
@@ -82,7 +85,8 @@ public class NodeTest {
         a.update();
         b.update();
 
-        a.createRequest(1, 10); //For this to work we need to test simulation.Request
+        a.createRequest(1, 10); //For this to work we need to
+        // test simulation.Request
         assertEquals(a.numberOfElementsInMessageQueue(), 1);
         a.update();
         assertEquals(a.numberOfElementsInMessageQueue(), 0);
@@ -113,13 +117,14 @@ public class NodeTest {
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(out));
         a.update();
-        assertEquals(out.toString(), "Position: (0, 10) time: 1 event id: 1\n");
+        assertEquals(out.toString(), "Position: (0, 10) " +
+                "time: 1 event id: 1\n");
         assertTrue(r.hasReturned());
     }
 
     /**
-     * Makes sure that compareTable method works by creating a node, a routingTable, comparing them
-     * editing them, then comparing them again
+     * Makes sure that compareTable method works by creating a node,
+     * a routingTable, comparing the editing them, then comparing them again
      */
     @Test
     public void shouldUpdateTableCorrectly(){

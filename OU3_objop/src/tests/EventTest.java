@@ -16,7 +16,8 @@ public class EventTest {
     /** Test that an event is created */
     @Test
     public void eventIsCreated() {
-        new Event(new Position(0, 0), 1, 1);
+        new Event(new Position(0, 0),
+                1, 1);
     }
 
     /** Test that an event returns the correct position */
@@ -24,7 +25,8 @@ public class EventTest {
     public void correctPositionReturned() {
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
-                Event event = new Event(new Position(x, y), 1, 1);
+                Event event = new Event(new Position(x, y), 1,
+                        1);
                 assertEquals(new Position(x, y), event.getPosition());
             }
         }

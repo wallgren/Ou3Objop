@@ -13,7 +13,8 @@ public class Request extends Message{
      * Constructor - Creates a Request from a given node.
      * @param requestFrom: Is the node where the request was sent from.
      * @param eventId: Is the ID of the event that a request is looking for.
-     * @param MAXJUMPS: Is the maximum amount of jumps that a request can perform.
+     * @param MAXJUMPS: Is the maximum amount of jumps that a request can
+     *                  perform.
      */
     public Request(Node requestFrom, int eventId, int MAXJUMPS){
         super(requestFrom, MAXJUMPS);
@@ -32,8 +33,10 @@ public class Request extends Message{
      */
     public void update(){
         if(currNode.returnTimeIfEventExists(eventId) != null){
-            message = "Position: (" + currNode.getPos().getX() + ", " + currNode.getPos().getY() + ") " +
-                    "time: " + currNode.returnTimeIfEventExists(eventId) + " event id: " + eventId;
+            message = "Position: (" + currNode.getPos().getX()
+                    + ", " + currNode.getPos().getY() + ") " +
+                    "time: " + currNode.returnTimeIfEventExists(eventId)
+                    + " event id: " + eventId;
             nextNode=findNextNode();
         }
         else if(jumps < MAXJUMPS)
@@ -53,7 +56,8 @@ public class Request extends Message{
                 directionNext = currNode.getEventInfo(eventId).getDirection();
                 return currNode.getNeighbours().get(directionNext);
             } else
-                return currNode.getNeighbours().get(random.nextInt(currNode.getNeighbours().size()));
+                return currNode.getNeighbours().
+                        get(random.nextInt(currNode.getNeighbours().size()));
         } else{
             path.pop();
             if(!path.isEmpty())

@@ -1,10 +1,7 @@
 package tests;
 import simulation.*;
-import org.junit.Before;
 import org.junit.Test;
 import static junit.framework.TestCase.*;
-
-import java.util.ArrayList;
 
 /**
  * Test - Junit test that makes sure that the Agent class works as intended
@@ -16,7 +13,8 @@ public class RequestTest {
      */
     @Test
     public void canCreateRequest(){
-        new Request(new Node(new Position(0,0)), 1, 10);
+        new Request(new Node(new Position(0,0)), 1, 10)
+        ;
     }
 
     /**
@@ -24,7 +22,8 @@ public class RequestTest {
      */
     @Test
     public void justCreatedRequestShouldNotBeMarkedAsReturned(){
-        Request r=new Request(new Node(new Position(0,0)), 1, 10);
+        Request r=new Request(new Node(new Position(0,0)), 1,
+                10);
         assertFalse(r.hasReturned());
     }
 

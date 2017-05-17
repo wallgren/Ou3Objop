@@ -39,7 +39,8 @@ public class Grid {
         this.MAXJUMPSREQUEST = config.getMaxJumpsRequest();
         this.timeEachRequestIsSent = config.getTimeEachRequestsIsSent();
         if(timeEachRequestIsSent == 0){
-            throw new IllegalStateException("timeEachRequestIsSent equal to zero");
+            throw new IllegalStateException("timeEachRequestIsSent " +
+                    "equal to zero");
         }
         fixNeighbours();
         randomNodes = (ArrayList<Node>)listOfNodes.clone();
@@ -52,7 +53,8 @@ public class Grid {
     /**
      * Method - This method is called everytime a time tick is represented,
      *          the method spawns events and agents on a given probability.
-     *          The method also spawns requests at given times according to the variable timeEachRequestIsSent.
+     *          The method also spawns requests at given times according to
+     *          the variable timeEachRequestIsSent.
      */
     public void eventHappening() {
         timeStepIncrement();
@@ -79,7 +81,8 @@ public class Grid {
             if(listOfEvents.size() > 0) {
                 eventId = randomGen.nextInt(listOfEvents.size());
                 for (int i = 0; i < 4; i++) {
-                    fourRandomNodes.get(i).createRequest(eventId, MAXJUMPSREQUEST);
+                    fourRandomNodes.get(i).createRequest(eventId,
+                            MAXJUMPSREQUEST);
                 }
             }
         }
@@ -119,9 +122,12 @@ public class Grid {
             for (int j = 0; j < listOfNodes.size(); j++) {
                 Node compareNode = listOfNodes.get(j);
                 if (i != j) {
-                    int xlength = node.getPos().getX() - compareNode.getPos().getX();
-                    int ylength = node.getPos().getY() - compareNode.getPos().getY();
-                    if (Math.sqrt(Math.pow(xlength, 2) + Math.pow(ylength, 2)) <= COMLENGTH) {
+                    int xlength = node.getPos().getX() -
+                            compareNode.getPos().getX();
+                    int ylength = node.getPos().getY() -
+                            compareNode.getPos().getY();
+                    if (Math.sqrt(Math.pow(xlength, 2) +
+                            Math.pow(ylength, 2)) <= COMLENGTH) {
                         node.addNeighbour(compareNode);
                     }
                 }
@@ -129,7 +135,8 @@ public class Grid {
         }
         for(Node n:listOfNodes){
             if(n.getNeighbours().isEmpty())
-                throw new IllegalStateException("Node on position" + n.getPos().getX()+","+n.getPos().getY()+" has " +
+                throw new IllegalStateException("Node on position" +
+                        n.getPos().getX()+","+n.getPos().getY()+" has " +
                         "no neighbours");
         }
     }

@@ -18,7 +18,8 @@ public class PositionTest {
     }
 
     /**
-     * Tests that position can handle negative coordinates, as this is a very important feature in our system.
+     * Tests that position can handle negative coordinates, as this is a
+     * very important feature in our system.
      */
     @Test
     public void shouldBeAbleToCreatePositionWithNegativeXY(){
@@ -33,8 +34,10 @@ public class PositionTest {
     @Test
     public void getXYReturnsCorrect(){
         Position a = new Position(13,57);
-        assertEquals("simulation.Position.getX returns incorrect value", a.getX(), 13);
-        assertEquals("simulation.Position.getY returns incorrect value",a.getY(), 57);
+        assertEquals("simulation.Position.getX returns incorrect value",
+                a.getX(), 13);
+        assertEquals("simulation.Position.getY returns incorrect value",
+                a.getY(), 57);
     }
 
     /**
@@ -44,8 +47,10 @@ public class PositionTest {
     public void setPosSetsPosition(){
         Position p=new Position(0,0);
         p.setPos(15,20);
-        assertEquals("simulation.Position.setPos sets incorrect X", p.getX(), 15);
-        assertEquals("simulation.Position.setPos sets incorrect Y", p.getY(), 20);
+        assertEquals("simulation.Position.setPos sets incorrect X",
+                p.getX(), 15);
+        assertEquals("simulation.Position.setPos sets incorrect Y",
+                p.getY(), 20);
     }
 
     /**

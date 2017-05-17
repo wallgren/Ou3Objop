@@ -68,7 +68,8 @@ public class AgentTest {
      */
     @Test
     public void shouldPrioritizeNonVisitedNodes(){
-        //To eliminate, as much as possible, the dependency of random we run the test many times.
+        //To eliminate, as much as possible, the dependency of random we
+        // run the test many times.
         for(int i=0; i<1000; i++) {
             Node n1 = new Node(new Position(0, 0));
             Node n2 = new Node(new Position(0, 0));

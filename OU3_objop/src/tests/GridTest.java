@@ -111,6 +111,7 @@ public class GridTest {
         config.setEventProbability(1);
         Grid grid = new Grid(config);
         grid.eventHappening();
-        assertEquals(1, (int)nodes.get(0).returnTimeIfEventExists(1));
+        assertEquals(1,
+                (int)nodes.get(0).returnTimeIfEventExists(1));
     }
 }
