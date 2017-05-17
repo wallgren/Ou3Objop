@@ -21,7 +21,7 @@ public class Grid {
     private int MAXJUMPSREQUEST;
     private int timeEachRequestIsSent;
     private Random randomGen = new Random();
-    private int nextIdGenertor;
+    private int nextIdGenerator;
 
     /**
      * Constructor - Creates the grid with a config class.
@@ -59,8 +59,8 @@ public class Grid {
 
         for(Node node : listOfNodes){
             if(detectEvent()){
-                nextIdGenertor++;
-                Event e= new Event(node.getPos(), nextIdGenertor, timeStep);
+                nextIdGenerator++;
+                Event e= new Event(node.getPos(), nextIdGenerator, timeStep);
                 node.addEvent(e);
                 listOfEvents.add(e);
                 if(detectAgent()){
