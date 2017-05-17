@@ -1,6 +1,7 @@
+package simulation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 /**
  * Created by oi12mnd on 2017-05-05.

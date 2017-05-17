@@ -1,7 +1,10 @@
+package simulation;
+
 import java.util.ArrayList;
 
 /**
  * Created by dv16mhg on 2017-05-09.
+ * Minimal working example of the simulation
  */
 public class main {
     public static void main(String[] args) throws Exception {
@@ -18,6 +21,7 @@ public class main {
         config.setComlength(15);
         config.setMaxJumpsAgent(50);
         config.setMaxJumpsRequest(45);
+        config.setTimeEachRequestsIsSent(400);
         Grid g = new Grid(config);
 
         for (int i = 0; i < 10000; i++) {

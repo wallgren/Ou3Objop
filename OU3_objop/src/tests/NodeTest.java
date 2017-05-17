@@ -1,3 +1,6 @@
+package tests;
+
+import simulation.*;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -66,7 +69,7 @@ public class NodeTest {
         a.update();
         b.update();
 
-        a.createRequest(1, 10); //For this to work we need to test Request
+        a.createRequest(1, 10); //For this to work we need to test simulation.Request
         assertEquals(a.numberOfElementsInMessageQueue(), 1);
         a.update();
         assertEquals(a.numberOfElementsInMessageQueue(), 0);
@@ -94,7 +97,7 @@ public class NodeTest {
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(out));
         a.update();
-        assertEquals(out.toString(), "Position: (0, 10) time: 1 event id: 1\n");
+        assertEquals(out.toString(), "simulation.Position: (0, 10) time: 1 event id: 1\n");
         assertTrue(r.hasReturned());
     }
 

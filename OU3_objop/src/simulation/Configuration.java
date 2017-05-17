@@ -1,3 +1,5 @@
+package simulation;
+
 import java.util.ArrayList;
 
 /**
@@ -9,9 +11,10 @@ public class Configuration {
     private ArrayList<Node> nodes;
     private double agentProbability;
     private double eventProbability;
-    private int comLength;
+    private int comlength;
     private int maxJumpsAgent;
     private int maxJumpsRequest;
+    private int timeEachRequestsIsSent;
 
     /**
      * Constructor - Creates a Configuration class
@@ -44,7 +47,7 @@ public class Configuration {
      * Method - Sets the comLength to the given parameter
      * @param comlength
      */
-    public void setComlength(int comlength) {this.comLength = comlength;}
+    public void setComlength(int comlength) {this.comlength = comlength;}
 
     /**
      * Method - Sets the eventProbability to the given parameter
@@ -58,6 +61,18 @@ public class Configuration {
      */
     public void setAgentProbability(double agentProbability) {this.agentProbability = agentProbability;}
 
+    /**
+     * Method - Sets the timeEachRequestisSent
+     * @param timeEachRequestsIsSent
+     */
+    public void setTimeEachRequestsIsSent(int timeEachRequestsIsSent){
+        this.timeEachRequestsIsSent = timeEachRequestsIsSent;
+    }
+
+    /**
+     * Method - Gets the list of nodes
+     * @return ArrayList<Node>
+     */
     public ArrayList<Node> getNodes() {
         return nodes;
     }
@@ -78,7 +93,7 @@ public class Configuration {
      * Method - Gets the comLength
      * @return int
      */
-    public int getComlength() {return comLength;}
+    public int getComlength() {return comlength;}
 
     /**
      * Method - Gets the eventProbability
@@ -91,4 +106,10 @@ public class Configuration {
      * @return double
      */
     public double getAgentProbability() {return agentProbability;}
+
+    /**
+     * Method - Gets the timeEachRequestIsSent
+     * @return int
+     */
+    public int getTimeEachRequestsIsSent() {return timeEachRequestsIsSent; }
 }

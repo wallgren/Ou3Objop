@@ -1,3 +1,5 @@
+package simulation;
+
 /**
  * Created by Max Holmberg on 2017-05-16.
  * Class - A class to represent steps and direction in the RoutingTable
@@ -38,6 +40,11 @@ public class Guide {
         this.direction = direction;
     }
 
+    /**
+     * Method - Checks if two Guides is equal to each other
+     * @param o
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,6 +56,10 @@ public class Guide {
         return direction == guide.direction;
     }
 
+    /**
+     * Method - Returns a hashCode for a Guide
+     * @return int
+     */
     @Override
     public int hashCode() {
         int result = steps;

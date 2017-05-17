@@ -1,7 +1,11 @@
-/**
+package tests; /**
  * Created by dv16mhg on 2017-05-17.
  */
 
+import simulation.Configuration;
+import simulation.Grid;
+import simulation.Node;
+import simulation.Position;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,13 +37,14 @@ public class GridTest {
         config.setComlength(15);
         config.setMaxJumpsAgent(50);
         config.setMaxJumpsRequest(45);
+        config.setTimeEachRequestsIsSent(400);
         size = 500;
     }
 
 
 
     /**
-     * Test - Tests if the nodes have expected neighbours
+     * Test - tests if the nodes have expected neighbours
      */
     @Test
     public void nodeShouldHaveCorrectAmountOfNeighbours(){
@@ -61,7 +66,7 @@ public class GridTest {
     }
 
     /**
-     * Test - Tests if when node have zero neighbours will throw an exception
+     * Test - tests if when node have zero neighbours will throw an exception
      */
     @Test (expected = IllegalStateException.class)
     public void shouldThrowIfZeroNeighbours(){
@@ -71,7 +76,7 @@ public class GridTest {
     }
 
     /**
-     * Test - Tests if four request is generated after 400 time steps
+     * Test - tests if four request is generated after 400 time steps
      */
     @Test
     public void fourRequestShouldBeSentOut(){
@@ -97,7 +102,7 @@ public class GridTest {
     }
 
     /**
-     * Test - Tests if event spawned
+     * Test - tests if event spawned
      */
     @Test
     public void eventShouldSpawn(){

@@ -1,3 +1,5 @@
+package simulation;
+
 /**
  * Class that handles the information about an event.
  * Created by oi12mnd on 2017-05-05.

@@ -1,3 +1,6 @@
+package tests;
+
+import simulation.Position;
 import org.junit.Test;
 
 import static junit.framework.TestCase.*;
@@ -20,16 +23,16 @@ public class PositionTest {
     @Test
     public void getXYReturnsCorrect(){
         Position a = new Position(13,57);
-        assertEquals("Position.getX returns incorrect value", a.getX(), 13);
-        assertEquals("Position.getY returns incorrect value",a.getY(), 57);
+        assertEquals("simulation.Position.getX returns incorrect value", a.getX(), 13);
+        assertEquals("simulation.Position.getY returns incorrect value",a.getY(), 57);
     }
 
     @Test
     public void setPosSetsPosition(){
         Position p=new Position(0,0);
         p.setPos(15,20);
-        assertEquals("Position.setPos sets incorrect X", p.getX(), 15);
-        assertEquals("Position.setPos sets incorrect Y", p.getY(), 20);
+        assertEquals("simulation.Position.setPos sets incorrect X", p.getX(), 15);
+        assertEquals("simulation.Position.setPos sets incorrect Y", p.getY(), 20);
     }
 
     @Test

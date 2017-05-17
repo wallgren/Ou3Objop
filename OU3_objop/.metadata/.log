@@ -11,7 +11,7 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.e
 Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
 The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
 this system level configuration. The Git installation location can be configured on the
-Team > Git > Configuration preference page's 'System Settings' tab.
+Team > Git > simulation.Configuration preference page's 'System Settings' tab.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
 
 !ENTRY org.eclipse.ui 4 0 2017-05-12 13:52:20.892

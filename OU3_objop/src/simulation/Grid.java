@@ -1,9 +1,11 @@
+package simulation;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 /**
- * Class - Grid represents the network with all the nodes in it
+ * Class - simulation.Grid represents the network with all the nodes in it
  */
 public class Grid {
     private int timeStep;
@@ -16,6 +18,7 @@ public class Grid {
     private int COMLENGTH;
     private int MAXJUMPSAGENT;
     private int MAXJUMPSREQUEST;
+    private int timeEachRequestIsSent;
     private Random randomGen = new Random();
     private int nextIdGenertor;
 
@@ -33,6 +36,10 @@ public class Grid {
         this.COMLENGTH = config.getComlength();
         this.MAXJUMPSAGENT = config.getMaxJumpsAgent();
         this.MAXJUMPSREQUEST = config.getMaxJumpsRequest();
+        this.timeEachRequestIsSent = config.getTimeEachRequestsIsSent();
+        if(timeEachRequestIsSent == 0){
+            throw new IllegalStateException("timeEachRequestIsSent equal to zero");
+        }
         fixNeighbours();
         randomNodes = (ArrayList<Node>)listOfNodes.clone();
         Collections.shuffle(randomNodes);
@@ -68,11 +75,11 @@ public class Grid {
          * it should send out four Requests from four random
          * nodes in the network
          */
-        if(timeStep % 400 == 0){
+        if(timeStep % timeEachRequestIsSent == 0){
             int eventId;
             if(listOfEvents.size() > 0) {
                 eventId = randomGen.nextInt(listOfEvents.size());
-                for (int i = 0; i <4; i++) {
+                for (int i = 0; i < 4; i++) {
                     fourRandomNodes.get(i).createRequest(eventId, MAXJUMPSREQUEST);
                 }
             }

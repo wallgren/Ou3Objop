@@ -1,4 +1,4 @@
-/**
+package simulation; /**
  * This class represents a message (Request or Agent) that is created on the grid.
  * Created by oi12mnd on 2017-05-09.
  */

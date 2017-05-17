@@ -1,3 +1,6 @@
+package tests;
+
+import simulation.*;
 import org.junit.Test;
 import static junit.framework.TestCase.*;
 

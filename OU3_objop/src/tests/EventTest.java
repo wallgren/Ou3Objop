@@ -1,7 +1,11 @@
+package tests;
+
+import simulation.Event;
+import simulation.Position;
 import org.junit.Test;
 import static org.junit.Assert.*;
 /**
- * This is a test class for Event.
+ * This is a test class for simulation.Event.
  * Created by oi12mnd on 2017-05-12.
  */
 public class EventTest {

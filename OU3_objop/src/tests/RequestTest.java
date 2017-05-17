@@ -1,3 +1,6 @@
+package tests;
+
+import simulation.*;
 import org.junit.Before;
 import org.junit.Test;
 import static junit.framework.TestCase.*;
@@ -25,6 +28,7 @@ public class RequestTest {
         config.setComlength(5);
         config.setMaxJumpsAgent(0);
         config.setMaxJumpsRequest(1);
+        config.setTimeEachRequestsIsSent(400);
         testGrid = new Grid(config);
     }
 
