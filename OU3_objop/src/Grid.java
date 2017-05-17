@@ -22,8 +22,9 @@ public class Grid {
     /**
      * Constructor        - Creates the grid with a config class
      * @param config
+     * @throws IllegalStateException
      */
-    public Grid(Configuration config){
+    public Grid(Configuration config) throws IllegalStateException{
         this.listOfNodes = config.getNodes();
         this.listOfEvents = new ArrayList<>();
         this.fourRandomNodes = new ArrayList<>();
@@ -47,7 +48,7 @@ public class Grid {
      *          from four random nodes
      *
      */
-    public void eventHappening() throws Exception {
+    public void eventHappening() {
         timeStepIncrement();
 
         for(Node node : listOfNodes){
@@ -57,7 +58,6 @@ public class Grid {
                 node.addEvent(e);
                 listOfEvents.add(e);
                 if(detectAgent()){
-                    //System.out.println("Agent created at:"+node.getPos().getX()+";"+node.getPos().getY());
                     Agent agent = new Agent(node, MAXJUMPSAGENT);
                     node.addMessageToQueue(agent);
                 }
@@ -105,8 +105,9 @@ public class Grid {
 
     /**
      * Method - Sets the neighbours for each Node in the Grid
+     * @throws IllegalStateException
      */
-    private void fixNeighbours() {
+    private void fixNeighbours() throws IllegalStateException{
         for (int i = 0; i < listOfNodes.size(); i++) {
             Node node = listOfNodes.get(i);
             for (int j = 0; j < listOfNodes.size(); j++) {

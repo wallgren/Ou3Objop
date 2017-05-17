@@ -2,6 +2,7 @@
  * Created by dv16mhg on 2017-05-17.
  */
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -10,18 +11,38 @@ import static org.junit.Assert.*;
 
 public class GridTest {
 
-    @Test
-    public void nodeShouldHaveCorrectAmountOfNeighbours() {
-        Configuration config = new Configuration();
-        config.setComlength(15);
-        ArrayList<Node> nodes = new ArrayList<>();
-        int size = 500;
-        for (int y = 0; y < size; y += 10) {
-            for (int x = 0; x < size; x += 10) {
-                nodes.add(new Node(new Position(x, y)));
+    private Configuration config;
+    private ArrayList<Node> nodes;
+    private int size;
+
+    /**
+     * Initializer of the standard test grid
+     */
+    @Before
+    public void init(){
+        nodes = new ArrayList<>();
+        config = new Configuration();
+        for (int i = 0; i < 500; i+=10) {
+            for (int j = 0; j < 500; j += 10) {
+                nodes.add(new Node(new Position(j,i)));
             }
         }
         config.setNodes(nodes);
+        config.setAgentProbability(0.5);
+        config.setEventProbability(0.0001);
+        config.setComlength(15);
+        config.setMaxJumpsAgent(50);
+        config.setMaxJumpsRequest(45);
+        size = 500;
+    }
+
+
+
+    /**
+     * Test - Tests if the nodes have expected neighbours
+     */
+    @Test
+    public void nodeShouldHaveCorrectAmountOfNeighbours(){
         new Grid(config);
         int next = 0;
         for (int y = 0; y < size; y += 10) {
@@ -39,23 +60,50 @@ public class GridTest {
         }
     }
 
-
+    /**
+     * Test - Tests if when node have zero neighbours will throw an exception
+     */
     @Test (expected = IllegalStateException.class)
-    public void shouldHaveZeroNeighbours(){
-        Configuration config = new Configuration();
+    public void shouldThrowIfZeroNeighbours(){
         config.setComlength(0);
-        ArrayList<Node> nodes = new ArrayList<>();
-        int size = 500;
-        for (int y = 0; y < size; y += 10) {
-            for (int x = 0; x < size; x += 10) {
-                nodes.add(new Node(new Position(x, y)));
-            }
-        }
         config.setNodes(nodes);
         new Grid(config);
     }
 
+    /**
+     * Test - Tests if four request is generated after 400 time steps
+     */
+    @Test
+    public void fourRequestShouldBeSentOut(){
+        config.setAgentProbability(0);
+        Grid grid = new Grid(config);
+        int counter = 0;
+        for (int i = 0; i < 401; i++) {
+            grid.eventHappening();
+            grid.updateNodes();
+            if(i == 400){
+                for(Node node : nodes){
+                    try{
+                        node.removeFirstElement();
+                    }
+                    catch(Exception e){
+                        counter--;
+                    }
+                    counter++;
+                }
+                assertEquals(4, counter);
+            }
+        }
+    }
 
-
-
+    /**
+     * Test - Tests if event spawned
+     */
+    @Test
+    public void eventShouldSpawn(){
+        config.setEventProbability(1);
+        Grid grid = new Grid(config);
+        grid.eventHappening();
+        assertEquals(1, (int)nodes.get(0).returnTimeIfEventExists(1));
+    }
 }
