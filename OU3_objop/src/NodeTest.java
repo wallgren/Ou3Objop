@@ -87,12 +87,17 @@ public class NodeTest {
         b.update();
         a.update();
 
-        a.createRequest(1, 5);
+        Request r=a.createRequest(1, 5);
         a.update();
         b.update();
         a.update();
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
         a.update();
+        assertEquals(out.toString(), "Position: (0, 10) time: 1 event id: 1\n");
+        assertTrue(r.hasReturned());
     }
+
 
     @Test
     public void shouldUpdateTableCorrectly(){
@@ -117,6 +122,40 @@ public class NodeTest {
         assertTrue(routingTable.get(2).equals(new Guide(4,13)));
         assertTrue(routingTable.get(3).equals(new Guide(10,5)));
         assertTrue(routingTable.get(4).equals(new Guide(5,2)));
+    }
+
+    @Test
+    public void sendingTwoRequestsToSameNodeShouldPutOneInQueue(){
+        Node a=new Node(new Position(0,0));
+        Node b=new Node(new Position(0,1));
+        Node c=new Node(new Position(0,2));
+        Node d=new Node(new Position(0,3));
+
+        a.addNeighbour(b);
+        c.addNeighbour(b);
+        b.addNeighbour(d);
+
+        a.createRequest(1, 10);
+        c.createRequest(2, 10);
+        a.update();
+        c.update();
+
+        assertEquals(b.numberOfElementsInMessageQueue(), 1);
+        assertEquals(a.numberOfElementsInMessageQueue(), 0);
+        assertEquals(c.numberOfElementsInMessageQueue(), 1);
+
+        b.update();
+        c.update();
+
+        assertEquals(b.numberOfElementsInMessageQueue(), 1);
+        assertEquals(d.numberOfElementsInMessageQueue(), 1);
+        b.createRequest(3, 10);
+        assertEquals(b.numberOfElementsInMessageQueue(), 2);
+        b.update();
+        assertEquals(d.numberOfElementsInMessageQueue(), 1);
+        assertEquals(b.numberOfElementsInMessageQueue(), 2);
+
+
     }
 
 

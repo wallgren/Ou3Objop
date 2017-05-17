@@ -1,5 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
+import static junit.framework.TestCase.*;
 
 import java.util.ArrayList;
 
@@ -36,4 +37,19 @@ public class RequestTest {
             t++;
         }
     }
+
+    @Test
+    public void justCreatedRequestShouldNotBeMarkedAsReturned(){
+        Request r=new Request(new Node(new Position(0,0)), 1, 10);
+        assertFalse(r.hasReturned());
+    }
+
+    @Test
+    public void shouldReturn(){
+        Node a=new Node(new Position(0,0));
+        Node b=new Node(new Position(0,0));
+        Node c=new Node(new Position(0,0));
+    }
+
+
 }
