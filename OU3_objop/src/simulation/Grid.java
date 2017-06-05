@@ -43,7 +43,7 @@ public class Grid {
                     "equal to zero");
         }
         fixNeighbours();
-        randomNodes = (ArrayList<Node>)listOfNodes.clone();
+        randomNodes = new ArrayList<>(listOfNodes);
         Collections.shuffle(randomNodes);
         for (int i = 0; i < 4; i++) {
             fourRandomNodes.add(randomNodes.get(i));
